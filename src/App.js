@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import { Responsive, Segment } from 'semantic-ui-react';
 import './App.css';
 
+const year = (new Date()).getFullYear();
+
 class App extends Component {
   render() {
     return (
-      <Segment.Group>
-        <Responsive as={Segment}>
-          <div>
-            <h1>RustMQ</h1>
-          </div>
-        </Responsive>
-      </Segment.Group>
+      <div className='body'>
+        <div className='header'>
+          <h1>RustMQ</h1>
+        </div>
+        <div className='content'>
+          Comming soon...
+        </div>
+        <div className='footer'>
+          <Responsive>
+            <Segment textAlign='center'>
+              (c) { year }
+            </Segment>
+          </Responsive>
+        </div>
+      </div>
     );
   }
 }
