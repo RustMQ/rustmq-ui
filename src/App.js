@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { Responsive, Segment } from 'semantic-ui-react';
+import {
+  Responsive,
+  Segment
+} from 'semantic-ui-react';
 import './App.css';
+import QueueList from './components/QueueList/QueueList';
 
 const year = (new Date()).getFullYear();
 
@@ -12,7 +16,11 @@ class App extends Component {
           <h1>RustMQ</h1>
         </div>
         <div className='content'>
-          Comming soon...
+          <Responsive>
+            <div className="queue-list">
+              <QueueList />
+            </div>
+          </Responsive>
         </div>
         <div className='footer'>
           <Responsive>
