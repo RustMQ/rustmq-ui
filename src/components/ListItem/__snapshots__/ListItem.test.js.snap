@@ -1,7 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<li>
-  Test Queue
-</li>
+<div>
+  <li>
+    <a
+      href="/queue/1"
+      onClick={[Function]}
+    >
+      [Size: 
+      38
+      ] 
+      Test pull
+       (
+      pull
+      )
+    </a>
+  </li>
+</div>
 `;

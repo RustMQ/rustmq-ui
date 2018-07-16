@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+import {
   Responsive,
   Segment
 } from 'semantic-ui-react';
@@ -11,25 +15,29 @@ const year = (new Date()).getFullYear();
 class App extends Component {
   render() {
     return (
-      <div className='body'>
-        <div className='header'>
-          <h1>RustMQ</h1>
-        </div>
-        <div className='content'>
-          <Responsive>
-            <div className="queue-list">
-              <QueueList />
+      <Router>
+        <div className='body'>
+          <div className='header'>
+            <h1>RustMQ</h1>
+          </div>
+          <Route exact path="/">
+            <div className='content'>
+              <Responsive>
+                <div className="queue-list">
+                  <QueueList />
+                </div>
+              </Responsive>
             </div>
-          </Responsive>
+          </Route>
+          <div className='footer'>
+            <Responsive>
+              <Segment textAlign='center'>
+                (c) { year }
+              </Segment>
+            </Responsive>
+          </div>
         </div>
-        <div className='footer'>
-          <Responsive>
-            <Segment textAlign='center'>
-              (c) { year }
-            </Segment>
-          </Responsive>
-        </div>
-      </div>
+      </Router>
     );
   }
 }
