@@ -1,21 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-    createStore,
-    combineReducers
-} from 'redux';
-import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import Root from './containers/Root';
 import '../node_modules/semantic-ui-css/semantic.min.css';
+import configureStore from './store/configureStore';
 
-const store = createStore(combineReducers({
-    // TODO: add reducers
-}));
+const store = configureStore();
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+    <Router>
+        <Root store={store} />
+    </Router>,
     document.getElementById('root')
 );
