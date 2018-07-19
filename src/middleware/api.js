@@ -3,24 +3,31 @@ import { camelizeKeys } from "humps";
 
 const API_ROOT = `${process.env.REACT_APP_API_HOST}/3/projects/1/`;
 
-const callApi = (endpoint, schema) => {
+class FetchException {
+    constructor(value) {
+        this.value = value;
+        this.message = "Fetch error occurs: ";
+    }
+
+    toString() {
+        return this.message + JSON.stringify(this.value);
+    }
+}
+
+const callApi = async (endpoint, schema) => {
     const fullUrl = endpoint.indexOf(API_ROOT) === -1 ? API_ROOT + endpoint : endpoint;
 
-    return fetch(fullUrl)
-        .then(response =>
-            response
-                .json()
-                .then(json => {
-                    if (!response.ok) {
-                        return Promise.reject(json);
-                    }
+    const response = await fetch(fullUrl);
+    const json = await response.json();
 
-                    const camelizedJson = camelizeKeys(json);
-                    const normalizedData = normalize(camelizedJson, schema);
+    if (!response.ok) {
+        throw new FetchException(json);
+    }
 
-                    return Object.assign({}, normalizedData);
-                })
-        )
+    const camelizedJson = camelizeKeys(json);
+    const normalizedData = normalize(camelizedJson, schema);
+
+    return Object.assign({}, normalizedData);
 };
 
 // We use this Normalizr schemas to transform API responses from a nested form
@@ -50,7 +57,7 @@ export const CALL_API = "Call API";
 
 // A Redux middleware that interprets actions with CALL_API info specified.
 // Performs the call and promises when such actions are dispatched.
-export default store => next => action => {
+export default store => next => async action => {
     const callAPI = action[CALL_API];
     if (typeof callAPI === "undefined") {
         return next(action);
@@ -85,22 +92,21 @@ export default store => next => action => {
     const [requestType, successType, failureType] = types;
     next(actionWith({ type: requestType }));
 
-    return callApi(endpoint, schema)
-        .then(
-            response => {
-                return next(
-                    actionWith({
-                        response,
-                        type: successType
-                    })
-                )
-            },
-            error =>
-                next(
-                    actionWith({
-                        type: failureType,
-                        error: error.message || "Something bad happened"
-                    })
-                )
+    try {
+        const response = await callApi(endpoint, schema);
+
+        return next(
+            actionWith({
+                response,
+                type: successType
+            })
         );
+    } catch (error) {
+        return next(
+            actionWith({
+                type: failureType,
+                error: error.message || "Something bad happened"
+            })
+        );
+    }
 };
