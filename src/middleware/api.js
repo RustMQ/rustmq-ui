@@ -1,7 +1,7 @@
 import { normalize, schema } from "normalizr";
 import { camelizeKeys } from "humps";
 
-const API_ROOT = "/3/projects/1/";
+const API_ROOT = `${process.env.REACT_APP_API_HOST}/3/projects/1/`;
 
 const callApi = (endpoint, schema) => {
     const fullUrl = endpoint.indexOf(API_ROOT) === -1 ? API_ROOT + endpoint : endpoint;
