@@ -1,7 +1,7 @@
 import { normalize, schema } from "normalizr";
 import { camelizeKeys } from "humps";
 
-const API_ROOT = `${process.env.REACT_APP_API_HOST}/3/projects/1/`;
+export const API_ROOT = `${process.env.REACT_APP_API_HOST}/3/projects/1/`;
 
 class FetchException {
     constructor(value) {
