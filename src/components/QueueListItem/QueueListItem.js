@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-class ListItem extends Component {
+class QueueListItem extends Component {
   render() {
     return (
       <li>
-        <Link to={`/queue/${this.props.queue.id}`}>
+        <Link to={`/queue/${this.props.queue.name}`}>
           [Size: {this.props.queue.size}] {this.props.queue.name} ({
             this.props.queue.type
           })
@@ -15,4 +15,4 @@ class ListItem extends Component {
   }
 }
 
-export default ListItem;
+export default QueueListItem;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ListItem from "../ListItem/ListItem";
+import ListItem from "../QueueListItem/QueueListItem";
 
 class QueueList extends Component {
   renderListItem(listItem) {
