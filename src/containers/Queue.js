@@ -28,9 +28,7 @@ const mapStateToProps = (state, ownProps) => {
         isFetching
     } = state.appStore;
 
-    const queue = queues.find(queue => {
-        return queue.name === ownProps.match.params.queueName
-    });
+    const queue = queues.get(ownProps.match.params.queueName);
 
     return {
         queue,

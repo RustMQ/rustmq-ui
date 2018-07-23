@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => {
     } = state.appStore;
 
     return {
-        items: queues,
+        items: Array.from(queues),
         isFetching: isFetching
     }
 };
