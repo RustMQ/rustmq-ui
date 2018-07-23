@@ -1,6 +1,7 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
 export const REQUEST_QUEUES = 'REQUEST_QUEUES';
+export const REQUEST_QUEUE = 'REQUEST_QUEUE';
 
 // Fetches a queues from server.
 const requestQueues = (data) => ({
@@ -19,10 +20,7 @@ export const loadQueues = () => async (dispatch) => {
         const json = await response.json();
         const queues = await serialAsyncMap(json.queues, async (item) => {
             const request_queue_uri = fullUrl + `/${item.name}`;
-            const response = await fetch(request_queue_uri);
-            const json = await response.json();
-
-            return json.queue
+            return await getQueue(request_queue_uri);
         });
 
         return dispatch(
@@ -41,3 +39,35 @@ export const loadQueues = () => async (dispatch) => {
         )
     }
 };
+
+const requestQueue = (queue) => ({
+    type: REQUEST_QUEUE,
+    queue: queue,
+    isFetching: true
+});
+
+export const loadQueue = (queueName) => async (dispatch) => {
+    const fullUrl = API_ROOT + `queues/${queueName}`;
+    try {
+        const queue = await getQueue(fullUrl);
+
+        return dispatch(requestQueue(queue));
+    } catch (err) {
+        console.log('Error: ', err);
+        return dispatch(
+            {
+                type: 'FAILURE',
+                error: {
+                    data: err,
+                    msg: 'Ooops!'
+                }
+            }
+        )
+    }
+}
+
+async function getQueue(request_queue_uri) {
+    const response = await fetch(request_queue_uri);
+    const json = await response.json();
+    return json.queue;
+}
