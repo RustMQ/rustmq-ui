@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import ListItem from "../QueueListItem/QueueListItem";
+import QueueListItem from "../QueueListItem/QueueListItem";
 
 class QueueList extends Component {
   renderListItem(listItem) {
-    return <ListItem key={listItem.id} queue={listItem} />;
+    return <QueueListItem key={listItem.id} queue={listItem} />;
   }
 
   render() {
