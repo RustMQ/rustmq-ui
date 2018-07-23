@@ -3,7 +3,7 @@ import QueueListItem from "../QueueListItem/QueueListItem";
 
 class QueueList extends Component {
   renderListItem(listItem) {
-    return <QueueListItem key={listItem.id} queue={listItem} />;
+    return <QueueListItem key={listItem.name} queue={listItem} />;
   }
 
   render() {
