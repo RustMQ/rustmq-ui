@@ -29,7 +29,7 @@ const mapStateToProps = (state, ownProps) => {
     const {
         queues,
         isFetching
-    } = state.queuesApp;
+    } = state.appStore;
 
     return {
         items: queues,

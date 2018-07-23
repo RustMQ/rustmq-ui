@@ -1,22 +1,18 @@
 import { combineReducers } from "redux";
 import { REQUEST_QUEUES, REQUEST_QUEUE } from "../actions";
 
-const queuesAppInitialState = {
+const initialState = {
     queues: [],
     isFetching: true
 };
 
-const queues = (state = queuesAppInitialState, action) => {
+const appStore = (state = initialState, action) => {
     switch (action.type) {
         case REQUEST_QUEUES:
             const queues = action.queues;
-
-            return {
-                queues,
-                isFetching: !action.isFetching
-            };
+            return Object.assign({}, state, { queues, isFetching: !action.isFetching });
         default:
-            return state
+            return state;
     }
 }
 
@@ -31,12 +27,12 @@ const queue = (state = queueInitialState, action) => {
             const queue = action.queue;
             return Object.assign({}, queue, {isFetching: !action.isFetching});
         default:
-            return state
+            return state;
     }
 }
 
 const rootReducer = combineReducers({
-    queuesApp: queues,
+    appStore,
     queue
 });
 
