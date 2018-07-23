@@ -14,10 +14,12 @@ class App extends Component {
     }
 
     render() {
-        const { items } = this.props;
+        const { items, isFetching } = this.props;
         return (
             <div className='App-queueList'>
-                <QueueList items={items} />
+                {
+                    !isFetching && <QueueList items={items} />
+                }
             </div>
         )
     }
@@ -25,13 +27,13 @@ class App extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const {
-        entities: { queues }
-    } = state;
-
-    const items = Object.values(queues);
+        queues,
+        isFetching
+    } = state.queuesApp;
 
     return {
-        items: items
+        items: queues,
+        isFetching: isFetching
     }
 };
 

@@ -1,15 +1,27 @@
 import { combineReducers } from "redux";
+import { REQUEST_QUEUES } from "../actions";
 
-const entities = (state = { queues: {} }, action) => {
-    if (action.response && action.response.entities) {
-        return Object.assign({}, state, action.response.entities);
+const initialState = {
+    queues: [],
+    isFetching: true
+};
+
+const queues = (state = initialState, action) => {
+    switch (action.type) {
+        case REQUEST_QUEUES:
+            const queues = action.queues;
+
+            return {
+                queues,
+                isFetching: !action.isFetching
+            };
+        default:
+            return state
     }
-
-    return state;
 }
 
 const rootReducer = combineReducers({
-    entities,
+    queuesApp: queues
 });
 
 export default rootReducer;
