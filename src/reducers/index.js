@@ -11,29 +11,23 @@ const appStore = (state = initialState, action) => {
         case REQUEST_QUEUES:
             const queues = action.queues;
             return Object.assign({}, state, { queues, isFetching: !action.isFetching });
-        default:
-            return state;
-    }
-}
-
-const queueInitialState = {
-    queue: {},
-    isFetching: true
-}
-
-const queue = (state = queueInitialState, action) => {
-    switch(action.type) {
         case REQUEST_QUEUE:
             const queue = action.queue;
-            return Object.assign({}, queue, {isFetching: !action.isFetching});
+            const updatedQueues = state.queues.map( item => {
+                if (item.name === queue.name) {
+                    return {...item, ...queue};
+                }
+
+                return item;
+            });
+            return Object.assign({}, state, { queues: updatedQueues, isFetching: !action.isFetching });
         default:
             return state;
     }
 }
 
 const rootReducer = combineReducers({
-    appStore,
-    queue
+    appStore
 });
 
 export default rootReducer;

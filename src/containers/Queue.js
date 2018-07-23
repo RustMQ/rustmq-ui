@@ -13,10 +13,10 @@ class Queue extends Component {
     }
 
     render() {
-        const { queue } = this.props;
+        const { queue, isFetching } = this.props;
         return (
             <div>
-                { !queue.isFetching && <h2>[Size: {queue.size}] {queue.name} ({ queue.type })</h2> }
+                { !isFetching && <h2>[Size: {queue.size}] {queue.name} ({ queue.type })</h2> }
             </div>
         )
     }
@@ -24,9 +24,13 @@ class Queue extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const {
-        queue,
+        queues,
         isFetching
-    } = state;
+    } = state.appStore;
+
+    const queue = queues.find(queue => {
+        return queue.name === ownProps.match.params.queueName
+    });
 
     return {
         queue,
