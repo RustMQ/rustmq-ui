@@ -41,11 +41,14 @@ class NewQueueForm extends Component {
         return (
             <div>
                 <p>New Queue</p>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Name:
-                        <input name="name" type="text" value={this.state.name} onChange={this.handleInputChange} />
-                    </label>
+                <form onSubmit={this.handleSubmit} className="ui form">
+                    <div className="three wide inline required field">
+                        <label htmlFor="queueName">
+                            Name:
+                        </label>
+                        <input id="queueName" name="name" type="text" value={this.state.name} onChange={this.handleInputChange} />
+                    </div>
+                    <br />
                     <input type="submit" value="Submit" />
                 </form>
             </div>
