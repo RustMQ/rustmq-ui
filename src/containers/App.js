@@ -9,17 +9,32 @@ const loadData = ({ loadQueues }) => {
 }
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.handleNewQueueCall = this.handleNewQueueCall.bind(this);
+    }
+
     componentDidMount() {
         loadData(this.props);
+    }
+
+    handleNewQueueCall(event) {
+        this.props.history.push('/queues/new');
+        event.preventDefault();
     }
 
     render() {
         const { items, isFetching } = this.props;
         return (
-            <div className='App-queueList'>
-                {
-                    !isFetching && <QueueList items={items} />
-                }
+            <div className='App'>
+                <div className='App-newQueue'>
+                    <input type="button" value="Create a New Queue" onClick={this.handleNewQueueCall} />
+                </div>
+                <div className='App-queueList'>
+                    {
+                        !isFetching && <QueueList items={items} />
+                    }
+                </div>
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { REQUEST_QUEUES, REQUEST_QUEUE } from "../actions";
+import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE } from "../actions";
 
 const initialState = {
     queues: new Map(),
@@ -7,6 +7,7 @@ const initialState = {
 };
 
 const appStore = (state = initialState, action) => {
+    let queue, updatedQueues;
     switch (action.type) {
         case REQUEST_QUEUES:
             const queues = new Map();
@@ -16,13 +17,19 @@ const appStore = (state = initialState, action) => {
 
             return Object.assign({}, state, { queues, isFetching: !action.isFetching });
         case REQUEST_QUEUE:
-            const queue = action.queue;
+            queue = action.queue;
 
             const prevValue = state.queues.get(queue.name);
             const nextValue = Object.assign({}, prevValue, queue);
 
-            const updatedQueues = new Map(state.queues);
+            updatedQueues = new Map(state.queues);
             updatedQueues.set(queue.name, nextValue);
+
+            return Object.assign({}, state, { queues: updatedQueues, isFetching: !action.isFetching });
+        case ADD_QUEUE:
+            queue = action.queue;
+            updatedQueues = new Map(state.queues);
+            updatedQueues.set(queue.name, queue);
 
             return Object.assign({}, state, { queues: updatedQueues, isFetching: !action.isFetching });
         default:
