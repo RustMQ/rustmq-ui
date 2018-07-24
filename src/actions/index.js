@@ -4,6 +4,7 @@ import { API_ROOT } from '../middleware/api';
 export const REQUEST_QUEUES = 'REQUEST_QUEUES';
 export const REQUEST_QUEUE = 'REQUEST_QUEUE';
 export const ADD_QUEUE = 'ADD_QUEUE';
+export const DELETE_QUEUE = 'DELETE_QUEUE';
 
 const requestQueues = (data) => ({
     type: REQUEST_QUEUES,
@@ -95,6 +96,35 @@ export const addNewQueue = (newQueue) => async (dispatch) => {
         const queue = json.queue;
 
         return dispatch(addQueue(queue));
+    } catch (err) {
+        console.log('Error: ', err);
+        return dispatch(
+            {
+                type: 'FAILURE',
+                error: {
+                    data: err,
+                    msg: 'Ooops!'
+                }
+            }
+        )
+    }
+}
+
+export const deleteQueue = (queueName) => ({
+    type: DELETE_QUEUE,
+    queueName,
+    deleted: true,
+    toHome: true
+});
+
+export const removeQueue = (queueName) => async (dispatch) => {
+    const fullUrl = API_ROOT + `queues/${queueName}`;
+    try {
+        await fetch(fullUrl, {
+            method: "DELETE"
+        });
+
+        return dispatch(deleteQueue(queueName));
     } catch (err) {
         console.log('Error: ', err);
         return dispatch(

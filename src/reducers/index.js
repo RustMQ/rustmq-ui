@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE } from "../actions";
+import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE, DELETE_QUEUE } from "../actions";
 
 const initialState = {
     queues: new Map(),
@@ -32,6 +32,12 @@ const appStore = (state = initialState, action) => {
             updatedQueues.set(queue.name, queue);
 
             return Object.assign({}, state, { queues: updatedQueues, isFetching: !action.isFetching });
+        case DELETE_QUEUE:
+            const queueName = action.queueName;
+            updatedQueues = new Map(state.queues);
+            updatedQueues.delete(queueName);
+
+            return Object.assign({}, state, { queues: updatedQueues, deleted: true, toHome: true });
         default:
             return state;
     }
