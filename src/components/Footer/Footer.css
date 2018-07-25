@@ -1,0 +1,10 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    padding: 16px 0 30px 0;
+}
+
+.footer__content{
+    font-size: 12px;
+    color: #171727;
+}
