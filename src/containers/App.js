@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import QueueList from '../components/QueueList/QueueList';
 import Button from '../components/Button/Button';
 import { loadQueues } from '../actions';
+import './App.css';
 
 const loadData = ({ loadQueues }) => {
     loadQueues();
@@ -28,14 +29,16 @@ class App extends Component {
         const { items, isFetching } = this.props;
 
         return (
-            <div className='App'>
-                <div className='App-newQueue'>
-                    <Button label='Create a New Queue' onClick={this.handleNewQueueCall} class='button button--create'></Button>
-                </div>
-                <div className='App-queueList'>
+            <div className='app__container'>
+                <div className='app__container__queue-list'>
                     {
                         !isFetching && <QueueList items={items} />
                     }
+                </div>
+                <div className='app__container__actions'>
+                    <div>
+                        <Button label='Create a New Queue' onClick={this.handleNewQueueCall} class='button button--create'></Button>
+                    </div>
                 </div>
             </div>
         )

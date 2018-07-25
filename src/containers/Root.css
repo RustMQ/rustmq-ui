@@ -2,9 +2,12 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    justify-content: inherit;
 }
 
 .root__main {
+    width: 100%;
     flex: 1 0 auto;
     background-color: #f2f6f8;
+    display: flex;
 }
