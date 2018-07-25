@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import QueueList from '../components/QueueList/QueueList';
+import Button from '../components/Button/Button';
 import { loadQueues } from '../actions';
 
 const loadData = ({ loadQueues }) => {
@@ -25,10 +26,11 @@ class App extends Component {
 
     render() {
         const { items, isFetching } = this.props;
+
         return (
             <div className='App'>
                 <div className='App-newQueue'>
-                    <input type="button" value="Create a New Queue" onClick={this.handleNewQueueCall} />
+                    <Button label='Create a New Queue' onClick={this.handleNewQueueCall} class='button button--create'></Button>
                 </div>
                 <div className='App-queueList'>
                     {
