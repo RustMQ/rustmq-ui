@@ -9,7 +9,7 @@ class Header extends Component {
             <header className='header'>
                 <nav className='header__hav'>
                     <Link to="/" className='header__nav__link'>
-                        <img src={logo} />
+                        <img src={logo} alt="RustMQ"/>
                     </Link>
                 </nav>
             </header>
