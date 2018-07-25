@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import QueueListItem from "../QueueListItem/QueueListItem";
+import React, { Component } from 'react';
+import QueueListItem from '../QueueListItem/QueueListItem';
 
 class QueueList extends Component {
   renderListItem(key, value) {
