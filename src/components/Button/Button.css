@@ -1,0 +1,14 @@
+.button {
+    border: none;
+    background-color: #cfdce3;
+    border-radius: 5px;
+}
+
+.button--create {
+    background-blend-mode: multiply, normal;
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    padding: 14px 54px;
+    background: linear-gradient(#3ac5a9, #2d9782);
+}
