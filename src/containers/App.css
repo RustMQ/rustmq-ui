@@ -1,9 +1,9 @@
-.body {
+.app {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
 }
 
-.content {
+.app__content {
     flex: 1 0 auto;
 }

@@ -1,0 +1,11 @@
+.header {
+    background-color: #282939;
+ }
+
+.header__hav {
+    padding: 16px 50px;
+}
+
+.header__nav__link {
+    display: block;
+}
