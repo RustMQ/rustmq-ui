@@ -6,14 +6,17 @@ import Queue from './Queue';
 import NewQueueForm from '../components/NewQueueForm/NewQueueForm';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import './Root.css';
 
 const Root = ({ store }) => (
     <Provider store={store}>
-        <div className="Root">
+        <div className="root">
             <Header />
-            <Route path="/" exact component={App} />
-            <Route path="/queue/:queueName" exact component={Queue} />
-            <Route path="/queues/new" exact component={NewQueueForm} />
+            <main className="root__main">
+                <Route path="/" exact component={App} />
+                <Route path="/queue/:queueName" exact component={Queue} />
+                <Route path="/queues/new" exact component={NewQueueForm} />
+            </main>
             <Footer />
         </div>
     </Provider>
