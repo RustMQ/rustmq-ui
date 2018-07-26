@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import QueueListItem from '../QueueListItem/QueueListItem';
+import './QueueList.css';
 
 class QueueList extends Component {
   renderListItem(key, value) {
@@ -11,7 +12,7 @@ class QueueList extends Component {
       item => this.renderListItem(item[0], item[1])
     );
 
-    return <ul>{listItems}</ul>;
+    return <ul className='queue-list'>{listItems}</ul>;
   }
 }
 
