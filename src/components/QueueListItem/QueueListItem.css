@@ -1,6 +1,11 @@
 .queue-list-item {
     display: flex;
     padding: 18px 30px;
+    transition: background .4s;
+}
+
+.queue-list-item:hover {
+    background-color: #F1F6F8;
 }
 
 .queue-list-item:not(:last-child) {
@@ -38,7 +43,7 @@
 .queue-list-item__link__info__type {
     color: #adbec6;
     font-size: 12px;
-    border: 2px solid #adbec6;
+    border: 2px solid #DCE6EB;
     border-radius: 5px;
     height: 26px;
     text-align: center;
