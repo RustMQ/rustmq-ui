@@ -1,30 +1,34 @@
 .queue-list-item {
+    display: flex;
+    padding: 18px 30px;
+}
+
+.queue-list-item:not(:last-child) {
     border-bottom: 1px solid #adbec6;
-    padding: 16px 0;
 }
 
 .queue-list-item__link {
     text-decoration: none;
     display: flex;
+    flex-grow: 1;
     color: #171727;
     height: 60;
 }
 
 .queue-list-item__link__info {
     width: 76px;
-    margin: 0 30px;
 }
 
 .queue-list-item__link__info__size {
     font-weight: 400;
-    font-size: 24pt;
+    font-size: 24px;
     text-align: center;
 }
 
 .queue-list-item__link__info__size__label::after {
     display: inline-block;
     width: 24px;
-    height: 24px;
+    height: 18px;
     background-repeat: no-repeat;
     content: '';
     background-position: center;
@@ -33,12 +37,26 @@
 
 .queue-list-item__link__info__type {
     color: #adbec6;
-    font-size: 12pt;
+    font-size: 12px;
     border: 2px solid #adbec6;
     border-radius: 5px;
-    height: 30px;
+    height: 26px;
     text-align: center;
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+.queue-list-item__link__name {
+    margin: 0 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.queue-list-item__controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

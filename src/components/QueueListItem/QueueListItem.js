@@ -16,13 +16,13 @@ class QueueListItem extends Component {
               {this.props.queue.type}
             </div>
           </div>
-          <div>
+          <div className='queue-list-item__link__name'>
             {this.props.queue.name}
           </div>
-          <div>
-            <Button label='New Message' class='button'></Button>
-          </div>
         </Link>
+        <div className='queue-list-item__controls'> 
+          <Button label='New Message' class='button button--send'></Button>
+        </div>
       </li>
     );
   }
