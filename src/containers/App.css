@@ -7,6 +7,8 @@
 .app__container__queue-list {
     flex-grow: 3;
     background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
 }
 
 .app__container__actions {
