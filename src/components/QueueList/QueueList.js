@@ -12,7 +12,12 @@ class QueueList extends Component {
       item => this.renderListItem(item[0], item[1])
     );
 
-    return <ul className='queue-list'>{listItems}</ul>;
+    return (
+      <ul className='queue-list'>
+        <div className='queue-list__header'>My Queues</div>
+        {listItems}
+      </ul>
+    );
   }
 }
 
