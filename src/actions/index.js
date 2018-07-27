@@ -10,6 +10,27 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
 
+export const FETCH_QUEUES_REQUEST = 'FETCH_QUEUES_REQUEST';
+export const FETCH_QUEUES_SUCCESS = 'FETCH_QUEUES_SUCCESS';
+export const FETCH_QUEUES_FAILURE = 'FETCH_QUEUES_FAILURE';
+
+const fetchQueuesRequest = () => ({
+    type: FETCH_QUEUES_REQUEST,
+    isFetching: true
+});
+
+const fetchQueuesSuccess = (queues) => ({
+    type: FETCH_QUEUES_SUCCESS,
+    queues: queues,
+    isFetching: false
+});
+
+const fetchQueuesFailure = (error) => ({
+    type: FETCH_QUEUES_FAILURE,
+    error: error,
+    isFetching: false
+});
+
 const requestQueues = (data) => ({
     type: REQUEST_QUEUES,
     queues: data,
@@ -18,6 +39,7 @@ const requestQueues = (data) => ({
 
 export const loadQueues = () => async (dispatch) => {
     // fetch
+    dispatch(fetchQueuesRequest());
     const fullUrl = API_ROOT + 'queues';
     try {
         const response = await fetch(fullUrl);
@@ -28,19 +50,11 @@ export const loadQueues = () => async (dispatch) => {
         });
 
         return dispatch(
-            requestQueues(queues)
+            fetchQueuesSuccess(queues)
         )
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(fetchQueuesFailure(err))
     }
 };
 
