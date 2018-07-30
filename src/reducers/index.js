@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
-import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE, DELETE_QUEUE, SHOW_MODAL, HIDE_MODAL } from "../actions";
+import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE, DELETE_QUEUE, SHOW_MODAL, HIDE_MODAL, REQUEST_MESSAGES } from "../actions";
 
 const initialState = {
     queues: new Map(),
+    messages: [],
     isFetching: true
 };
 
@@ -44,6 +45,12 @@ const appStore = (state = initialState, action) => {
         case HIDE_MODAL: {
             return Object.assign({}, state, { modalType: null, modalProps: {} });
         }
+        case REQUEST_MESSAGES:
+            return Object.assign(
+                {},
+                state,
+                { messages: action.messages }
+            );
         default:
             return state;
     }
