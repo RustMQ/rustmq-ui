@@ -6,13 +6,13 @@ class MessageListItem extends Component {
     render() {
         return (
             <li className="message-list-item">
-                <div className="queue-list-item__status">
+                <div className="message-list-item__status">
                     Unreserved
                 </div>
-                <div className="queue-list-item__body">
+                <div className="message-list-item__body">
                     {this.props.message.body}
                 </div>
-                <div className="queue-list-item__controls">
+                <div className="message-list-item__controls">
                     <Button label='Delete' class='button button--delete'></Button>
                 </div>
             </li>

@@ -12,19 +12,19 @@
     border-bottom: 1px solid #adbec6;
 }
 
-.queue-list-item__status {
+.message-list-item__status {
     width: 100px;
     flex: 1;
 }
 
-.queue-list-item__body {
+.message-list-item__body {
     flex: 4;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.queue-list-item__controls {
+.message-list-item__controls {
     flex: 1;
 }
 
