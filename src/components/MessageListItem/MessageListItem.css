@@ -1,0 +1,30 @@
+.message-list-item {
+    display: flex;
+    padding: 18px 30px;
+    transition: background .4s;
+}
+
+.message-list-item:hover {
+    background-color: #F1F6F8;
+}
+
+.message-list-item:not(:last-child) {
+    border-bottom: 1px solid #adbec6;
+}
+
+.queue-list-item__status {
+    width: 100px;
+    flex: 1;
+}
+
+.queue-list-item__body {
+    flex: 4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.queue-list-item__controls {
+    flex: 1;
+}
+
