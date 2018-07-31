@@ -7,6 +7,7 @@ export const ADD_QUEUE = 'ADD_QUEUE';
 export const DELETE_QUEUE = 'DELETE_QUEUE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
+export const SEND_MESSAGE = 'SEND_MESSAGE';
 
 const requestQueues = (data) => ({
     type: REQUEST_QUEUES,
@@ -128,6 +129,44 @@ export const removeQueue = (queueName) => async (dispatch) => {
 
         return dispatch(deleteQueue(queueName));
     } catch (err) {
+        console.log('Error: ', err);
+        return dispatch(
+            {
+                type: 'FAILURE',
+                error: {
+                    data: err,
+                    msg: 'Ooops!'
+                }
+            }
+        )
+    }
+}
+
+const sendMessage = (queueName, message) => ({
+    type: SEND_MESSAGE,
+    queueName: queueName,
+    message: message
+});
+
+export const postMessage = (queueName, message) => async (dispatch) => {
+    const fullUrl = API_ROOT + `queues/${queueName}/messages`;
+    const body = {
+        messages: [
+            message
+        ]
+    };
+    
+    try {
+        await fetch(fullUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(body)
+        })
+
+        return dispatch(sendMessage(queueName, message));
+    } catch(err) {
         console.log('Error: ', err);
         return dispatch(
             {
