@@ -45,7 +45,7 @@ export const loadQueues = () => async (dispatch) => {
 
 const requestQueue = (queue) => ({
     type: REQUEST_QUEUE,
-    queue: queue,
+    queue,
     isFetching: true
 });
 
@@ -77,7 +77,7 @@ async function getQueue(request_queue_uri) {
 
 const addQueue = (queue) => ({
     type: ADD_QUEUE,
-    queue: queue,
+    queue,
     isFetching: true
 });
 
@@ -144,8 +144,8 @@ export const removeQueue = (queueName) => async (dispatch) => {
 
 const sendMessage = (queueName, message) => ({
     type: SEND_MESSAGE,
-    queueName: queueName,
-    message: message
+    queueName,
+    message
 });
 
 export const postMessage = (queueName, message) => async (dispatch) => {
@@ -185,7 +185,7 @@ export const showPostMessageModal = (queueName) => (dispatch) => {
         type: SHOW_MODAL,
         modalType: 'POST_MESSAGE',
         modalProps: {
-            queueName: queueName
+            queueName
         }
     });
 };

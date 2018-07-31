@@ -78,7 +78,7 @@ class NewMessageForm extends Component {
 const mapStateToProps = (state, ownProps) => {
     const { queueName } = state.appStore.modalProps;
     return {
-        queueName: queueName
+        queueName
     }
 };
 
