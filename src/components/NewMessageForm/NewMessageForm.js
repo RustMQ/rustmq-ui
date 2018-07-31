@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hideModal } from '../../actions';
+import { hideModal, postMessage } from '../../actions';
 import Button from '../Button/Button';
 import './NewMessageForm.css'
 
@@ -14,6 +14,7 @@ class NewMessageForm extends Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleInputChange(event) {
@@ -28,19 +29,28 @@ class NewMessageForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        const { queueName } = this.props;
+        this.props.postMessage(queueName, this.state).then(() => {
+            this.props.hideModal();
+        });
+    }
+
+    handleClose(event) {
         this.props.hideModal();
     }
 
     render() {
         return (
-                <form className="new-message-form__modal" onSubmit={this.handleSubmit}>
+            <div className="new-message-form__modal">
+                <Button onClick={this.handleClose} label='✖' class='button button--delete new-message-form__modal__close-button' />
+                <form onSubmit={this.handleSubmit}>
                     <div className="new-message-form__modal__header">Send a New Message</div>
                     <div className="new-message-form__modal__controls">
                         <textarea
                             className="new-message-form__modal__controls__text-area"
                             name="body"
                             placeholder="Your message..."
-                            value={this.state.body} 
+                            value={this.state.body}
                             onChange={this.handleInputChange}
                         ></textarea>
                         <div className='new-message-form__modal__control'>
@@ -57,15 +67,19 @@ class NewMessageForm extends Component {
                         </div>
                     </div>
                     <div className='new-message-form__modal__buttons'>
-                        <Button onClick={this.handleSubmit} class='button button--send' label='New Message' />
+                        <Button class='button button--send' label='New Message' />
                     </div>
                 </form>
+            </div>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    const { queueName } = state.appStore.modalProps;
+    return {
+        queueName: queueName
+    }
 };
 
-export default connect(mapStateToProps, {hideModal})(NewMessageForm);
+export default connect(mapStateToProps, { hideModal, postMessage })(NewMessageForm);
