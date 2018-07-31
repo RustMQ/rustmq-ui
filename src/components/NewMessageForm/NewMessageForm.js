@@ -42,7 +42,7 @@ class NewMessageForm extends Component {
     render() {
         return (
             <div className="new-message-form__modal">
-                <Button onClick={this.handleClose} label="✖" class="button button--delete new-message-form__modal__close-button" />
+                <Button onClick={this.handleClose} class="button button--close new-message-form__modal__close-button" />
                 <form onSubmit={this.handleSubmit}>
                     <div className="new-message-form__modal__header">Send a New Message</div>
                     <div className="new-message-form__modal__controls">

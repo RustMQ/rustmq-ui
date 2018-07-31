@@ -43,11 +43,15 @@
     background-image: url(./icn-send.png);
 }
 
-.button--delete {
+.button--close {
     border-radius: 50%;
     font-size: 24px;
     background-color: #141414;
     color: #fff;
     height: 32px;
     width: 32px;
+}
+
+.button--close > .button__label::after {
+    content: "✖"
 }
