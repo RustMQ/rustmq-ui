@@ -5,6 +5,8 @@ export const REQUEST_QUEUES = 'REQUEST_QUEUES';
 export const REQUEST_QUEUE = 'REQUEST_QUEUE';
 export const ADD_QUEUE = 'ADD_QUEUE';
 export const DELETE_QUEUE = 'DELETE_QUEUE';
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const HIDE_MODAL = 'HIDE_MODAL';
 
 const requestQueues = (data) => ({
     type: REQUEST_QUEUES,
@@ -138,3 +140,19 @@ export const removeQueue = (queueName) => async (dispatch) => {
         )
     }
 }
+
+export const showPostMessageModal = (queueName) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'POST_MESSAGE',
+        modalProps: {
+            queueName: queueName
+        }
+    });
+};
+
+export const hideModal = () => (dispatch) => {
+    return dispatch({
+        type: HIDE_MODAL
+    });
+};
