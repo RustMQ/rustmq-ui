@@ -7,7 +7,6 @@ import Queue from './Queue';
 import NewQueueForm from '../components/NewQueueForm/NewQueueForm';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import NewMessageForm from '../components/NewMessageForm/NewMessageForm'
 import './Root.css';
 
 ReactModal.setAppElement('#root');
@@ -21,7 +20,6 @@ const Root = ({ store }) => (
                 <Route path="/queue/:queueName" exact component={Queue} />
                 <Route path="/queues/new" exact component={NewQueueForm} />
             </main>
-            <ReactModal className='modal' overlayClassName="modal-overlay" ><NewMessageForm /></ReactModal>
             <Footer />
         </div>
     </Provider>

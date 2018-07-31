@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { hideModal } from '../../actions';
 import Button from '../Button/Button';
 import './NewMessageForm.css'
 
@@ -26,6 +28,7 @@ class NewMessageForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        this.props.hideModal();
     }
 
     render() {
@@ -54,11 +57,15 @@ class NewMessageForm extends Component {
                         </div>
                     </div>
                     <div className='new-message-form__modal__buttons'>
-                        <Button class='button button--send' label='New Message' />
+                        <Button onClick={this.handleSubmit} class='button button--send' label='New Message' />
                     </div>
                 </form>
         )
     }
 }
 
-export default NewMessageForm;
+const mapStateToProps = (state, ownProps) => {
+    return {}
+};
+
+export default connect(mapStateToProps, {hideModal})(NewMessageForm);
