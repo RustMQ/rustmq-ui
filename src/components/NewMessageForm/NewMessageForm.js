@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hideModal, postMessage } from '../../actions';
+import { hideModal, postMessage, loadQueue } from '../../actions';
 import Button from '../Button/Button';
 import './NewMessageForm.css'
 
@@ -27,12 +27,12 @@ class NewMessageForm extends Component {
         });
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
         const { queueName } = this.props;
-        this.props.postMessage(queueName, this.state).then(() => {
-            this.props.hideModal();
-        });
+        await this.props.postMessage(queueName, this.state);
+        await this.props.loadQueue(queueName);
+        this.props.hideModal();
     }
 
     handleClose(event) {
@@ -82,4 +82,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-export default connect(mapStateToProps, { hideModal, postMessage })(NewMessageForm);
+export default connect(mapStateToProps, { hideModal, postMessage, loadQueue })(NewMessageForm);
