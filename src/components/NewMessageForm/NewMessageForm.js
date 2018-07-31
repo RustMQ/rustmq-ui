@@ -42,7 +42,7 @@ class NewMessageForm extends Component {
     render() {
         return (
             <div className="new-message-form__modal">
-                <Button onClick={this.handleClose} label='✖' class='button button--delete new-message-form__modal__close-button' />
+                <Button onClick={this.handleClose} label="✖" class="button button--delete new-message-form__modal__close-button" />
                 <form onSubmit={this.handleSubmit}>
                     <div className="new-message-form__modal__header">Send a New Message</div>
                     <div className="new-message-form__modal__controls">
@@ -53,21 +53,21 @@ class NewMessageForm extends Component {
                             value={this.state.body}
                             onChange={this.handleInputChange}
                         ></textarea>
-                        <div className='new-message-form__modal__control'>
-                            <label className='new-message-form__modal__control__label' htmlFor="timeout">Timeout</label>
-                            <input className="new-message-form__modal__control__input" id="timeout" type="text" />
+                        <div className="new-message-form__modal__control">
+                            <label className="new-message-form__modal__control__label" htmlFor="timeout">Timeout</label>
+                            <input className="new-message-form__modal__control__input" placeholder="60 sec by default" id="timeout" type="text" />
                         </div>
-                        <div className='new-message-form__modal__control'>
-                            <label className='new-message-form__modal__control__label' htmlFor="delay">Delay</label>
-                            <input className="new-message-form__modal__control__input" id="delay" type="text" />
+                        <div className="new-message-form__modal__control">
+                            <label className="new-message-form__modal__control__label" htmlFor="delay">Delay</label>
+                            <input className="new-message-form__modal__control__input" placeholder="0 sec by default" id="delay" type="text" />
                         </div>
-                        <div className='new-message-form__modal__control'>
-                            <label className='new-message-form__modal__control__label' htmlFor="expiration">Expiration</label>
-                            <input className="new-message-form__modal__control__input" id="expiration" type="text" />
+                        <div className="new-message-form__modal__control">
+                            <label className="new-message-form__modal__control__label" htmlFor="expiration">Expiration</label>
+                            <input className="new-message-form__modal__control__input" placeholder="604,800 sec (7 days) by default" id="expiration" type="text" />
                         </div>
                     </div>
-                    <div className='new-message-form__modal__buttons'>
-                        <Button class='button button--send' label='New Message' />
+                    <div className="new-message-form__modal__buttons">
+                        <Button class="button button--send" label="New Message" />
                     </div>
                 </form>
             </div>
