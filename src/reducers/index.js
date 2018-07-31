@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE, DELETE_QUEUE } from "../actions";
+import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE, DELETE_QUEUE, SHOW_MODAL, HIDE_MODAL } from "../actions";
 
 const initialState = {
     queues: new Map(),
@@ -38,6 +38,12 @@ const appStore = (state = initialState, action) => {
             updatedQueues.delete(queueName);
 
             return Object.assign({}, state, { queues: updatedQueues, deleted: true, toHome: true });
+        case SHOW_MODAL:
+            return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
+
+        case HIDE_MODAL: {
+            return Object.assign({}, state, { modalType: null, modalProps: {} });
+        }
         default:
             return state;
     }
