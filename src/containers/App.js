@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import ReactModal from 'react-modal';
 import QueueList from '../components/QueueList/QueueList';
 import Button from '../components/Button/Button';
 import { loadQueues } from '../actions';
+import NewMessageForm from '../components/NewMessageForm/NewMessageForm'
 import './App.css';
 
 const loadData = ({ loadQueues }) => {
@@ -26,7 +28,7 @@ class App extends Component {
     }
 
     render() {
-        const { items, isFetching } = this.props;
+        const { items, isFetching, modalType } = this.props;
 
         return (
             <div className='app__container'>
@@ -40,6 +42,7 @@ class App extends Component {
                         <Button label='Create a New Queue' onClick={this.handleNewQueueCall} class='button button--create'></Button>
                     </div>
                 </div>
+                <ReactModal isOpen = {modalType === 'POST_MESSAGE'} className='modal' overlayClassName="modal-overlay"><NewMessageForm /></ReactModal>
             </div>
         )
     }
@@ -48,12 +51,14 @@ class App extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {
         queues,
-        isFetching
+        isFetching,
+        modalType
     } = state.appStore;
 
     return {
         items: Array.from(queues),
-        isFetching: isFetching
+        isFetching: isFetching,
+        modalType: modalType
     }
 };
 

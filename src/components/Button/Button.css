@@ -5,6 +5,10 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.button:focus {
+    outline: none;
+}
+
 .button--create {
     background-blend-mode: multiply, normal;
     font-size: 18px;
@@ -37,4 +41,17 @@
     content: '';
     background-position: center;
     background-image: url(./icn-send.png);
+}
+
+.button--close {
+    border-radius: 50%;
+    font-size: 24px;
+    background-color: #141414;
+    color: #fff;
+    height: 32px;
+    width: 32px;
+}
+
+.button--close > .button__label::after {
+    content: "✖"
 }

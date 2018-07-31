@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Button from '../Button/Button';
+import { showPostMessageModal } from '../../actions';
 import './QueueListItem.css';
 
 class QueueListItem extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.props.showPostMessageModal(this.props.queue.name);
+  }
+
   render() {
     return (
       <li className='queue-list-item'>
@@ -21,11 +33,15 @@ class QueueListItem extends Component {
           </div>
         </Link>
         <div className='queue-list-item__controls'> 
-          <Button label='New Message' class='button button--send'></Button>
+          <Button onClick={this.handleClick} label='New Message' class='button button--send'></Button>
         </div>
       </li>
     );
   }
 }
 
-export default QueueListItem;
+const mapStateToProps = (state, ownProps) => {
+  return {}
+};
+
+export default connect(mapStateToProps, {showPostMessageModal})(QueueListItem);
