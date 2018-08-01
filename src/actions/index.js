@@ -3,7 +3,6 @@ import { API_ROOT } from '../middleware/api';
 
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
 
 export const FETCH_QUEUES_REQUEST = 'FETCH_QUEUES_REQUEST';
@@ -18,6 +17,9 @@ export const ADD_QUEUE_FAILURE = 'ADD_QUEUE_FAILURE';
 export const DELETE_QUEUE_REQUEST = 'DELETE_QUEUE_REQUEST';
 export const DELETE_QUEUE_SUCCESS = 'DELETE_QUEUE_SUCCESS';
 export const DELETE_QUEUE_FAILURE = 'DELETE_QUEUE_FAILURE';
+export const SEND_MESSAGE_REQUEST = 'SEND_MESSAGE_REQUEST';
+export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
+export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -172,10 +174,19 @@ export const removeQueue = (queueName) => async (dispatch) => {
     }
 }
 
-const sendMessage = (queueName, message) => ({
-    type: SEND_MESSAGE,
+export const sendMessageRequest = (queueName, message) => ({
+    type: SEND_MESSAGE_REQUEST,
     queueName,
     message
+});
+
+export const sendMessageSuccess = () => ({
+    type: SEND_MESSAGE_SUCCESS
+});
+
+export const sendMessageFailure = (error) => ({
+    type: SEND_MESSAGE_FAILURE,
+    error: error
 });
 
 export const postMessage = (queueName, message) => async (dispatch) => {
@@ -186,6 +197,7 @@ export const postMessage = (queueName, message) => async (dispatch) => {
         ]
     };
     
+    dispatch(sendMessageRequest(queueName, message));
     try {
         await fetch(fullUrl, {
             method: "POST",
@@ -195,18 +207,10 @@ export const postMessage = (queueName, message) => async (dispatch) => {
             body: JSON.stringify(body)
         })
 
-        return dispatch(sendMessage(queueName, message));
+        return dispatch(sendMessageSuccess());
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(sendMessageFailure());
     }
 }
 
