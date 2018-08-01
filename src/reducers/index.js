@@ -2,7 +2,6 @@ import { combineReducers } from "redux";
 import {
     SHOW_MODAL,
     HIDE_MODAL,
-    REQUEST_MESSAGES,
     FETCH_QUEUES_REQUEST,
     FETCH_QUEUES_SUCCESS,
     FETCH_QUEUES_FAILURE,
@@ -14,7 +13,10 @@ import {
     ADD_QUEUE_FAILURE,
     DELETE_QUEUE_REQUEST,
     DELETE_QUEUE_SUCCESS,
-    DELETE_QUEUE_FAILURE
+    DELETE_QUEUE_FAILURE,
+    FETCH_MESSAGES_SUCCESS,
+    FETCH_MESSAGES_REQUEST,
+    FETCH_MESSAGES_FAILURE
 } from "../actions";
 
 const initialState = {
@@ -71,18 +73,17 @@ const appStore = (state = initialState, action) => {
             return Object.assign({}, state, { queues: updatedQueues, deleted: action.deleted, toHome: action.toHome });
         case DELETE_QUEUE_FAILURE:
             return Object.assign({}, state, { deleted: action.deleted, toHome: action.toHome });
+        case FETCH_MESSAGES_REQUEST:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case FETCH_MESSAGES_SUCCESS:
+            return Object.assign({}, state, { messages: action.messages, isFetching: action.isFetching });
+        case FETCH_MESSAGES_FAILURE:
+            return Object.assign({}, state, { isFetching: action.isFetching });
         case SHOW_MODAL:
             return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
-
         case HIDE_MODAL: {
             return Object.assign({}, state, { modalType: null, modalProps: {} });
         }
-        case REQUEST_MESSAGES:
-            return Object.assign(
-                {},
-                state,
-                { messages: action.messages }
-            );
         default:
             return state;
     }

@@ -1,10 +1,6 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
 
-export const SHOW_MODAL = 'SHOW_MODAL';
-export const HIDE_MODAL = 'HIDE_MODAL';
-export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
-
 export const FETCH_QUEUES_REQUEST = 'FETCH_QUEUES_REQUEST';
 export const FETCH_QUEUES_SUCCESS = 'FETCH_QUEUES_SUCCESS';
 export const FETCH_QUEUES_FAILURE = 'FETCH_QUEUES_FAILURE';
@@ -20,6 +16,12 @@ export const DELETE_QUEUE_FAILURE = 'DELETE_QUEUE_FAILURE';
 export const SEND_MESSAGE_REQUEST = 'SEND_MESSAGE_REQUEST';
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
 export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
+export const FETCH_MESSAGES_REQUEST = 'FETCH_MESSAGES_REQUEST';
+export const FETCH_MESSAGES_SUCCESS = 'FETCH_MESSAGES_SUCCESS';
+export const FETCH_MESSAGES_FAILURE = 'FETCH_MESSAGES_FAILURE';
+
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const HIDE_MODAL = 'HIDE_MODAL';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -214,33 +216,35 @@ export const postMessage = (queueName, message) => async (dispatch) => {
     }
 }
 
-const requestMessages = (data) => ({
-    type: REQUEST_MESSAGES,
-    messages: data,
+export const fetchMessagesRequest = () => ({
+    type: FETCH_MESSAGES_REQUEST,
     isFetching: true
+});
+
+export const fetchMessagesSuccess = (messages) => ({
+    type: FETCH_MESSAGES_SUCCESS,
+    messages: messages,
+    isFetching: false
+});
+
+export const fetchMessagesFailure = (error) => ({
+    type: FETCH_MESSAGES_FAILURE,
+    error: error,
+    isFetching: false
 });
 
 export const loadMessages = (queueName) => async (dispatch) => {
     // fetch
     const fullUrl = API_ROOT + `queues/${queueName}/messages?n=100`;
+    dispatch(fetchMessagesRequest());
     try {
         const response = await fetch(fullUrl);
         const json = await response.json();
         
-        return dispatch(
-            requestMessages(json.messages)
-        )
+        return dispatch(fetchMessagesSuccess(json.messages))
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(fetchMessagesFailure(err));
     }
 }
 
