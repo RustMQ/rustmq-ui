@@ -1,7 +1,6 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
 
-export const REQUEST_QUEUE = 'REQUEST_QUEUE';
 export const ADD_QUEUE = 'ADD_QUEUE';
 export const DELETE_QUEUE = 'DELETE_QUEUE';
 export const SHOW_MODAL = 'SHOW_MODAL';
@@ -12,6 +11,9 @@ export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
 export const FETCH_QUEUES_REQUEST = 'FETCH_QUEUES_REQUEST';
 export const FETCH_QUEUES_SUCCESS = 'FETCH_QUEUES_SUCCESS';
 export const FETCH_QUEUES_FAILURE = 'FETCH_QUEUES_FAILURE';
+export const FETCH_QUEUE_REQUEST = 'FETCH_QUEUE_REQUEST';
+export const FETCH_QUEUE_SUCCESS = 'FETCH_QUEUE_SUCCESS';
+export const FETCH_QUEUE_FAILURE = 'FETCH_QUEUE_FAILURE';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -51,29 +53,33 @@ export const loadQueues = () => async (dispatch) => {
     }
 };
 
-const requestQueue = (queue) => ({
-    type: REQUEST_QUEUE,
-    queue,
+const fetchQueueRequest = () => ({
+    type: FETCH_QUEUE_REQUEST,
     isFetching: true
+});
+
+const fetchQueueSuccess = (queue) => ({
+    type: FETCH_QUEUE_SUCCESS,
+    queue: queue,
+    isFetching: false
+});
+
+const fetchQueueFailure = (error) => ({
+    type: FETCH_QUEUE_FAILURE,
+    error: error,
+    isFetching: false
 });
 
 export const loadQueue = (queueName) => async (dispatch) => {
     const fullUrl = API_ROOT + `queues/${queueName}`;
     try {
+        dispatch(fetchQueueRequest())
         const queue = await getQueue(fullUrl);
 
-        return dispatch(requestQueue(queue));
+        return dispatch(fetchQueueSuccess(queue));
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(fetchQueueFailure(err));
     }
 }
 
