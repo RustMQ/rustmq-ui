@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
-import { loadQueue, removeQueue } from '../actions'
+import { loadQueue, removeQueue, loadMessages } from '../actions'
+import MessageList from '../components/MessageList/MessageList';
+import './Queue.css';
 
-const loadData = ({ loadQueue, match, deleted }) => {
+const loadData = async ({ loadQueue, loadMessages, match, deleted }) => {
     if (deleted === true) {
         return;
     }
 
-    loadQueue(match.params.queueName);
+    await loadQueue(match.params.queueName);
+    await loadMessages(match.params.queueName);
 }
 class Queue extends Component {
     constructor(props) {
@@ -28,19 +31,27 @@ class Queue extends Component {
     }
 
     render() {
-        const { queue, isFetching, toHome } = this.props;
+        const { queue, messages, isFetching, toHome } = this.props;
+
         if (toHome === true) {
             return <Redirect to='/' />
         }
 
+        if (isFetching) {
+            return null
+        }
+
         return (
-            <div>
-                { !isFetching &&
+            <div className="queue-page__container">
+                <div className="queue-page__container__message-list">
+                    <MessageList items={messages}/>
+                </div>
+                <div className="queue-page__container_queue__container">
                     <div>
                         <h2>[Size: {queue.size}] {queue.name} ({ queue.type })</h2>
-                        <input type="button" value="Delete a Queue" onClick={this.handleDeleteQueue} />
                     </div>
-                }
+                    <input type="button" value="Delete a Queue" onClick={this.handleDeleteQueue} />
+                </div>
             </div>
         )
     }
@@ -49,6 +60,7 @@ class Queue extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {
         queues,
+        messages,
         isFetching,
         deleted,
         toHome
@@ -58,6 +70,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         queue,
+        messages,
         isFetching,
         deleted,
         toHome
@@ -66,6 +79,8 @@ const mapStateToProps = (state, ownProps) => {
 
 export default withRouter(
     connect(mapStateToProps, {
-        loadQueue, removeQueue
+        loadQueue,
+        removeQueue,
+        loadMessages
     })(Queue)
 );

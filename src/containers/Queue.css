@@ -1,0 +1,25 @@
+.queue-page__container {
+    display: flex;
+    margin: 20px auto 30px auto;
+    width: 80%;
+}
+
+.queue-page__container__message-list {
+    max-width: 1040px;
+    flex-grow: 3;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+}
+
+.queue-page__container_queue__container {
+    flex-grow: 1;
+    align-self: flex-start;
+}
+
+.queue-page__container_queue__container > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

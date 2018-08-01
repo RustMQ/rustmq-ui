@@ -8,6 +8,7 @@ export const DELETE_QUEUE = 'DELETE_QUEUE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
 
 const requestQueues = (data) => ({
     type: REQUEST_QUEUES,
@@ -166,7 +167,37 @@ export const postMessage = (queueName, message) => async (dispatch) => {
         })
 
         return dispatch(sendMessage(queueName, message));
-    } catch(err) {
+    } catch (err) {
+        console.log('Error: ', err);
+        return dispatch(
+            {
+                type: 'FAILURE',
+                error: {
+                    data: err,
+                    msg: 'Ooops!'
+                }
+            }
+        )
+    }
+}
+
+const requestMessages = (data) => ({
+    type: REQUEST_MESSAGES,
+    messages: data,
+    isFetching: true
+});
+
+export const loadMessages = (queueName) => async (dispatch) => {
+    // fetch
+    const fullUrl = API_ROOT + `queues/${queueName}/messages?n=100`;
+    try {
+        const response = await fetch(fullUrl);
+        const json = await response.json();
+        
+        return dispatch(
+            requestMessages(json.messages)
+        )
+    } catch (err) {
         console.log('Error: ', err);
         return dispatch(
             {
