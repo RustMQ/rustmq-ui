@@ -1,0 +1,26 @@
+.root {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: inherit;
+}
+
+.root__main {
+    width: 100%;
+    flex: 1 0 auto;
+    background-color: #f2f6f8;
+    display: flex;
+}
+
+.modal:focus {
+    outline: none;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.2);
+}

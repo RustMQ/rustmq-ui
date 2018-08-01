@@ -1,0 +1,23 @@
+.app__container {
+    display: flex;
+    margin: 20px auto 30px auto;
+    width: 80%;
+}
+
+.app__container__queue-list {
+    flex-grow: 3;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+}
+
+.app__container__actions {
+    flex-grow: 1;
+    align-self: flex-start;
+}
+
+.app__container__actions > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
