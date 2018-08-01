@@ -38,10 +38,7 @@ class Queue extends Component {
         }
 
         if (isFetching) {
-            return (
-                <div>
-                </div>
-            )
+            return null
         }
 
         return (
