@@ -1,7 +1,6 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
 
-export const REQUEST_QUEUES = 'REQUEST_QUEUES';
 export const REQUEST_QUEUE = 'REQUEST_QUEUE';
 export const ADD_QUEUE = 'ADD_QUEUE';
 export const DELETE_QUEUE = 'DELETE_QUEUE';
@@ -29,12 +28,6 @@ const fetchQueuesFailure = (error) => ({
     type: FETCH_QUEUES_FAILURE,
     error: error,
     isFetching: false
-});
-
-const requestQueues = (data) => ({
-    type: REQUEST_QUEUES,
-    queues: data,
-    isFetching: true
 });
 
 export const loadQueues = () => async (dispatch) => {

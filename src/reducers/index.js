@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
-import { 
-    REQUEST_QUEUES,
+import {
     REQUEST_QUEUE,
     ADD_QUEUE,
     DELETE_QUEUE,
@@ -32,13 +31,6 @@ const appStore = (state = initialState, action) => {
             return Object.assign({}, state, { queues, isFetching: action.isFetching });
         case FETCH_QUEUES_FAILURE:
             return Object.assign({}, state, { isFetching: action.isFetching });
-        case REQUEST_QUEUES:
-            queues = new Map();
-            action.queues.forEach(element => {
-                queues.set(element.name, element);
-            });
-
-            return Object.assign({}, state, { queues, isFetching: !action.isFetching });
         case REQUEST_QUEUE:
             queue = action.queue;
 
