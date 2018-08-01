@@ -57,8 +57,9 @@ export const loadQueues = () => async (dispatch) => {
     }
 };
 
-const fetchQueueRequest = () => ({
+const fetchQueueRequest = (queueName) => ({
     type: FETCH_QUEUE_REQUEST,
+    queueName,
     isFetching: true
 });
 
