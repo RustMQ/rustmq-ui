@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import {
-    DELETE_QUEUE,
     SHOW_MODAL,
     HIDE_MODAL,
     REQUEST_MESSAGES,
@@ -12,7 +11,10 @@ import {
     FETCH_QUEUE_FAILURE,
     ADD_QUEUE_REQUEST,
     ADD_QUEUE_SUCCESS,
-    ADD_QUEUE_FAILURE
+    ADD_QUEUE_FAILURE,
+    DELETE_QUEUE_REQUEST,
+    DELETE_QUEUE_SUCCESS,
+    DELETE_QUEUE_FAILURE
 } from "../actions";
 
 const initialState = {
@@ -59,12 +61,16 @@ const appStore = (state = initialState, action) => {
             return Object.assign({}, state, { queues: updatedQueues, isFetching: action.isFetching });
         case ADD_QUEUE_FAILURE:
             return Object.assign({}, state, { isFetching: action.isFetching });
-        case DELETE_QUEUE:
+        case DELETE_QUEUE_REQUEST:
+            return Object.assign({}, state, { deleted: action.deleted, toHome: action.toHome });
+        case DELETE_QUEUE_SUCCESS:
             const queueName = action.queueName;
             updatedQueues = new Map(state.queues);
             updatedQueues.delete(queueName);
 
-            return Object.assign({}, state, { queues: updatedQueues, deleted: true, toHome: true });
+            return Object.assign({}, state, { queues: updatedQueues, deleted: action.deleted, toHome: action.toHome });
+        case DELETE_QUEUE_FAILURE:
+            return Object.assign({}, state, { deleted: action.deleted, toHome: action.toHome });
         case SHOW_MODAL:
             return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
 

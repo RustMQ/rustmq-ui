@@ -1,7 +1,6 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
 
-export const DELETE_QUEUE = 'DELETE_QUEUE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
@@ -16,6 +15,9 @@ export const FETCH_QUEUE_FAILURE = 'FETCH_QUEUE_FAILURE';
 export const ADD_QUEUE_REQUEST = 'ADD_QUEUE_REQUEST';
 export const ADD_QUEUE_SUCCESS = 'ADD_QUEUE_SUCCESS';
 export const ADD_QUEUE_FAILURE = 'ADD_QUEUE_FAILURE';
+export const DELETE_QUEUE_REQUEST = 'DELETE_QUEUE_REQUEST';
+export const DELETE_QUEUE_SUCCESS = 'DELETE_QUEUE_SUCCESS';
+export const DELETE_QUEUE_FAILURE = 'DELETE_QUEUE_FAILURE';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -133,32 +135,39 @@ export const addNewQueue = (newQueue) => async (dispatch) => {
     }
 }
 
-export const deleteQueue = (queueName) => ({
-    type: DELETE_QUEUE,
+export const deleteQueueRequest = (queueName) => ({
+    type: DELETE_QUEUE_REQUEST,
+    queueName,
+    deleted: false,
+    toHome: false
+});
+
+export const deleteQueueSuccess = (queueName) => ({
+    type: DELETE_QUEUE_SUCCESS,
     queueName,
     deleted: true,
     toHome: true
 });
 
+export const deleteQueueFailure = (error) => ({
+    type: DELETE_QUEUE_FAILURE,
+    error: error,
+    deleted: false,
+    toHome: true
+});
+
 export const removeQueue = (queueName) => async (dispatch) => {
     const fullUrl = API_ROOT + `queues/${queueName}`;
+    dispatch(deleteQueueRequest(queueName));
     try {
         await fetch(fullUrl, {
             method: "DELETE"
         });
 
-        return dispatch(deleteQueue(queueName));
+        return dispatch(deleteQueueSuccess(queueName));
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(deleteQueueFailure(err));
     }
 }
 
