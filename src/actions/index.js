@@ -1,7 +1,6 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
 
-export const ADD_QUEUE = 'ADD_QUEUE';
 export const DELETE_QUEUE = 'DELETE_QUEUE';
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
@@ -14,6 +13,9 @@ export const FETCH_QUEUES_FAILURE = 'FETCH_QUEUES_FAILURE';
 export const FETCH_QUEUE_REQUEST = 'FETCH_QUEUE_REQUEST';
 export const FETCH_QUEUE_SUCCESS = 'FETCH_QUEUE_SUCCESS';
 export const FETCH_QUEUE_FAILURE = 'FETCH_QUEUE_FAILURE';
+export const ADD_QUEUE_REQUEST = 'ADD_QUEUE_REQUEST';
+export const ADD_QUEUE_SUCCESS = 'ADD_QUEUE_SUCCESS';
+export const ADD_QUEUE_FAILURE = 'ADD_QUEUE_FAILURE';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -72,8 +74,8 @@ const fetchQueueFailure = (error) => ({
 
 export const loadQueue = (queueName) => async (dispatch) => {
     const fullUrl = API_ROOT + `queues/${queueName}`;
+    dispatch(fetchQueueRequest());
     try {
-        dispatch(fetchQueueRequest())
         const queue = await getQueue(fullUrl);
 
         return dispatch(fetchQueueSuccess(queue));
@@ -89,14 +91,26 @@ async function getQueue(request_queue_uri) {
     return json.queue;
 }
 
-const addQueue = (queue) => ({
-    type: ADD_QUEUE,
-    queue,
+const addQueueRequest = () => ({
+    type: ADD_QUEUE_REQUEST,
     isFetching: true
+});
+
+const addQueueSuccess = (queue) => ({
+    type: ADD_QUEUE_SUCCESS,
+    queue: queue,
+    isFetching: false
+});
+
+const addQueueFailure = (error) => ({
+    type: ADD_QUEUE_FAILURE,
+    error: error,
+    isFetching: false
 });
 
 export const addNewQueue = (newQueue) => async (dispatch) => {
     const fullUrl = API_ROOT + `queues/${newQueue.name}`;
+    dispatch(addQueueRequest());
     const body = {
         queue: newQueue
     };
@@ -112,18 +126,10 @@ export const addNewQueue = (newQueue) => async (dispatch) => {
         const json = await response.json();
         const queue = json.queue;
 
-        return dispatch(addQueue(queue));
+        return dispatch(addQueueSuccess(queue));
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(addQueueFailure(err));
     }
 }
 
