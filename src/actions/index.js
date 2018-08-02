@@ -219,14 +219,16 @@ export const postMessage = (queueName, message) => async (dispatch) => {
     }
 }
 
-export const fetchMessagesRequest = () => ({
+export const fetchMessagesRequest = (queueName) => ({
     type: FETCH_MESSAGES_REQUEST,
+    queueName,
     isFetching: true
 });
 
-export const fetchMessagesSuccess = (messages) => ({
+export const fetchMessagesSuccess = (queueName, messages) => ({
     type: FETCH_MESSAGES_SUCCESS,
-    messages: messages,
+    queueName,
+    messages,
     isFetching: false
 });
 
@@ -239,12 +241,12 @@ export const fetchMessagesFailure = (error) => ({
 export const loadMessages = (queueName) => async (dispatch) => {
     // fetch
     const fullUrl = API_ROOT + `queues/${queueName}/messages?n=100`;
-    dispatch(fetchMessagesRequest());
+    dispatch(fetchMessagesRequest(queueName));
     try {
         const response = await fetch(fullUrl);
         const json = await response.json();
-        
-        return dispatch(fetchMessagesSuccess(json.messages))
+
+        return dispatch(fetchMessagesSuccess(queueName, json.messages))
     } catch (err) {
         console.log('Error: ', err);
         return dispatch(fetchMessagesFailure(err));
