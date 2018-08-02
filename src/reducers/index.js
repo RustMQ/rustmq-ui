@@ -16,7 +16,8 @@ import {
     DELETE_QUEUE_FAILURE,
     FETCH_MESSAGES_SUCCESS,
     FETCH_MESSAGES_REQUEST,
-    FETCH_MESSAGES_FAILURE
+    FETCH_MESSAGES_FAILURE,
+    DELETE_MESSAGE_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -79,6 +80,10 @@ const appStore = (state = initialState, action) => {
             return Object.assign({}, state, { messages: action.messages, isFetching: action.isFetching });
         case FETCH_MESSAGES_FAILURE:
             return Object.assign({}, state, { isFetching: action.isFetching });
+        case DELETE_MESSAGE_SUCCESS:
+            const { messages } = state;
+            const updatedMessages = messages.filter( msg => msg.id !== action.messageId);
+            return Object.assign({}, state, { messages: updatedMessages });
         case SHOW_MODAL:
             return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
         case HIDE_MODAL: {
