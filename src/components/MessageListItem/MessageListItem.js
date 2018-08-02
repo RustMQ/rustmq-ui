@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { deleteMessage } from '../../actions';
 import Button from '../Button/Button';
 import './MessageListItem.css';
 
 class MessageListItem extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    handleDelete() {
+        const { message, deleteMessage } = this.props;
+        deleteMessage(message.queueName, message.id);
+    }
+
     render() {
         return (
             <li className="message-list-item">
@@ -13,11 +26,15 @@ class MessageListItem extends Component {
                     {this.props.message.body}
                 </div>
                 <div className="message-list-item__controls">
-                    <Button label='Delete' class='button button--delete'></Button>
+                    <Button onClick={this.handleDelete} class='button button--delete'></Button>
                 </div>
             </li>
         )
     }
 }
 
-export default MessageListItem;
+const mapStateToProps = (state, ownProps) => {
+    return {};
+};
+
+export default connect(mapStateToProps, {deleteMessage})(MessageListItem);
