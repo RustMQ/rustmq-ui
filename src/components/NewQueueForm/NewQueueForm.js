@@ -7,27 +7,14 @@ import './NewQueueForm.css';
 class NewQueueForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: ""
-        };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
     handleSubmit(event) {
-        this.props.addNewQueue(this.state).then(() => {
+        const { queueName } = this.form;
+        this.props.addNewQueue({ name: queueName.value }).then(() => {
             this.props.hideModal();
         });
         event.preventDefault();
@@ -43,11 +30,11 @@ class NewQueueForm extends Component {
             <div className="new-queue-form">
                 <Button onClick={this.handleClose} class="button button--close new-queue-form__close-button" />
                 <div className="new-queue-form__header">New Queue</div>
-                <form onSubmit={this.handleSubmit} className="ui form">
+                <form ref={form => this.form = form} onSubmit={this.handleSubmit}>
                     <div className="new-queue-form__controls">
                         <div className="new-queue-form__control">
                             <label className="new-queue-form__control__label" htmlFor="queueName">Name:</label>
-                            <input className="new-queue-form__control__input" placeholder="Enter Queue Name" id="queueName" name="name" type="text" value={this.state.name} onChange={this.handleInputChange} />
+                            <input className="new-queue-form__control__input" placeholder="Enter Queue Name" id="queueName" name="queueName" type="text"/>
                         </div>
                         <div className="new-queue-form__control">
                             <label className="new-queue-form__control__label" htmlFor="queueType">Type:</label>
@@ -59,7 +46,7 @@ class NewQueueForm extends Component {
                         </div>
                         <div className="new-message-form__modal__buttons">
                             <Button label="Create" class="button button--send" />
-                        </div>  
+                        </div>
                     </div>
                 </form>
             </div>
