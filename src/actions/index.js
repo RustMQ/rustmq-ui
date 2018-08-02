@@ -1,23 +1,48 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
 
-export const REQUEST_QUEUES = 'REQUEST_QUEUES';
-export const REQUEST_QUEUE = 'REQUEST_QUEUE';
-export const ADD_QUEUE = 'ADD_QUEUE';
-export const DELETE_QUEUE = 'DELETE_QUEUE';
+export const FETCH_QUEUES_REQUEST = 'FETCH_QUEUES_REQUEST';
+export const FETCH_QUEUES_SUCCESS = 'FETCH_QUEUES_SUCCESS';
+export const FETCH_QUEUES_FAILURE = 'FETCH_QUEUES_FAILURE';
+export const FETCH_QUEUE_REQUEST = 'FETCH_QUEUE_REQUEST';
+export const FETCH_QUEUE_SUCCESS = 'FETCH_QUEUE_SUCCESS';
+export const FETCH_QUEUE_FAILURE = 'FETCH_QUEUE_FAILURE';
+export const ADD_QUEUE_REQUEST = 'ADD_QUEUE_REQUEST';
+export const ADD_QUEUE_SUCCESS = 'ADD_QUEUE_SUCCESS';
+export const ADD_QUEUE_FAILURE = 'ADD_QUEUE_FAILURE';
+export const DELETE_QUEUE_REQUEST = 'DELETE_QUEUE_REQUEST';
+export const DELETE_QUEUE_SUCCESS = 'DELETE_QUEUE_SUCCESS';
+export const DELETE_QUEUE_FAILURE = 'DELETE_QUEUE_FAILURE';
+export const SEND_MESSAGE_REQUEST = 'SEND_MESSAGE_REQUEST';
+export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
+export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
+export const FETCH_MESSAGES_REQUEST = 'FETCH_MESSAGES_REQUEST';
+export const FETCH_MESSAGES_SUCCESS = 'FETCH_MESSAGES_SUCCESS';
+export const FETCH_MESSAGES_FAILURE = 'FETCH_MESSAGES_FAILURE';
+
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
-export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
 
-const requestQueues = (data) => ({
-    type: REQUEST_QUEUES,
-    queues: data,
+const fetchQueuesRequest = () => ({
+    type: FETCH_QUEUES_REQUEST,
     isFetching: true
+});
+
+const fetchQueuesSuccess = (queues) => ({
+    type: FETCH_QUEUES_SUCCESS,
+    queues: queues,
+    isFetching: false
+});
+
+const fetchQueuesFailure = (error) => ({
+    type: FETCH_QUEUES_FAILURE,
+    error: error,
+    isFetching: false
 });
 
 export const loadQueues = () => async (dispatch) => {
     // fetch
+    dispatch(fetchQueuesRequest());
     const fullUrl = API_ROOT + 'queues';
     try {
         const response = await fetch(fullUrl);
@@ -28,45 +53,42 @@ export const loadQueues = () => async (dispatch) => {
         });
 
         return dispatch(
-            requestQueues(queues)
+            fetchQueuesSuccess(queues)
         )
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(fetchQueuesFailure(err))
     }
 };
 
-const requestQueue = (queue) => ({
-    type: REQUEST_QUEUE,
-    queue,
+const fetchQueueRequest = (queueName) => ({
+    type: FETCH_QUEUE_REQUEST,
+    queueName,
     isFetching: true
+});
+
+const fetchQueueSuccess = (queue) => ({
+    type: FETCH_QUEUE_SUCCESS,
+    queue: queue,
+    isFetching: false
+});
+
+const fetchQueueFailure = (error) => ({
+    type: FETCH_QUEUE_FAILURE,
+    error: error,
+    isFetching: false
 });
 
 export const loadQueue = (queueName) => async (dispatch) => {
     const fullUrl = API_ROOT + `queues/${queueName}`;
+    dispatch(fetchQueueRequest());
     try {
         const queue = await getQueue(fullUrl);
 
-        return dispatch(requestQueue(queue));
+        return dispatch(fetchQueueSuccess(queue));
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(fetchQueueFailure(err));
     }
 }
 
@@ -76,14 +98,26 @@ async function getQueue(request_queue_uri) {
     return json.queue;
 }
 
-const addQueue = (queue) => ({
-    type: ADD_QUEUE,
-    queue,
+const addQueueRequest = () => ({
+    type: ADD_QUEUE_REQUEST,
     isFetching: true
+});
+
+const addQueueSuccess = (queue) => ({
+    type: ADD_QUEUE_SUCCESS,
+    queue: queue,
+    isFetching: false
+});
+
+const addQueueFailure = (error) => ({
+    type: ADD_QUEUE_FAILURE,
+    error: error,
+    isFetching: false
 });
 
 export const addNewQueue = (newQueue) => async (dispatch) => {
     const fullUrl = API_ROOT + `queues/${newQueue.name}`;
+    dispatch(addQueueRequest());
     const body = {
         queue: newQueue
     };
@@ -99,54 +133,62 @@ export const addNewQueue = (newQueue) => async (dispatch) => {
         const json = await response.json();
         const queue = json.queue;
 
-        return dispatch(addQueue(queue));
+        return dispatch(addQueueSuccess(queue));
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(addQueueFailure(err));
     }
 }
 
-export const deleteQueue = (queueName) => ({
-    type: DELETE_QUEUE,
+export const deleteQueueRequest = (queueName) => ({
+    type: DELETE_QUEUE_REQUEST,
+    queueName,
+    deleted: false,
+    toHome: false
+});
+
+export const deleteQueueSuccess = (queueName) => ({
+    type: DELETE_QUEUE_SUCCESS,
     queueName,
     deleted: true,
     toHome: true
 });
 
+export const deleteQueueFailure = (error) => ({
+    type: DELETE_QUEUE_FAILURE,
+    error: error,
+    deleted: false,
+    toHome: true
+});
+
 export const removeQueue = (queueName) => async (dispatch) => {
     const fullUrl = API_ROOT + `queues/${queueName}`;
+    dispatch(deleteQueueRequest(queueName));
     try {
         await fetch(fullUrl, {
             method: "DELETE"
         });
 
-        return dispatch(deleteQueue(queueName));
+        return dispatch(deleteQueueSuccess(queueName));
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(deleteQueueFailure(err));
     }
 }
 
-const sendMessage = (queueName, message) => ({
-    type: SEND_MESSAGE,
+export const sendMessageRequest = (queueName, message) => ({
+    type: SEND_MESSAGE_REQUEST,
     queueName,
     message
+});
+
+export const sendMessageSuccess = () => ({
+    type: SEND_MESSAGE_SUCCESS
+});
+
+export const sendMessageFailure = (error) => ({
+    type: SEND_MESSAGE_FAILURE,
+    error: error
 });
 
 export const postMessage = (queueName, message) => async (dispatch) => {
@@ -157,6 +199,7 @@ export const postMessage = (queueName, message) => async (dispatch) => {
         ]
     };
     
+    dispatch(sendMessageRequest(queueName, message));
     try {
         await fetch(fullUrl, {
             method: "POST",
@@ -166,48 +209,42 @@ export const postMessage = (queueName, message) => async (dispatch) => {
             body: JSON.stringify(body)
         })
 
-        return dispatch(sendMessage(queueName, message));
+        return dispatch(sendMessageSuccess());
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(sendMessageFailure());
     }
 }
 
-const requestMessages = (data) => ({
-    type: REQUEST_MESSAGES,
-    messages: data,
+export const fetchMessagesRequest = () => ({
+    type: FETCH_MESSAGES_REQUEST,
     isFetching: true
+});
+
+export const fetchMessagesSuccess = (messages) => ({
+    type: FETCH_MESSAGES_SUCCESS,
+    messages: messages,
+    isFetching: false
+});
+
+export const fetchMessagesFailure = (error) => ({
+    type: FETCH_MESSAGES_FAILURE,
+    error: error,
+    isFetching: false
 });
 
 export const loadMessages = (queueName) => async (dispatch) => {
     // fetch
     const fullUrl = API_ROOT + `queues/${queueName}/messages?n=100`;
+    dispatch(fetchMessagesRequest());
     try {
         const response = await fetch(fullUrl);
         const json = await response.json();
         
-        return dispatch(
-            requestMessages(json.messages)
-        )
+        return dispatch(fetchMessagesSuccess(json.messages))
     } catch (err) {
         console.log('Error: ', err);
-        return dispatch(
-            {
-                type: 'FAILURE',
-                error: {
-                    data: err,
-                    msg: 'Ooops!'
-                }
-            }
-        )
+        return dispatch(fetchMessagesFailure(err));
     }
 }
 

@@ -1,5 +1,23 @@
 import { combineReducers } from "redux";
-import { REQUEST_QUEUES, REQUEST_QUEUE, ADD_QUEUE, DELETE_QUEUE, SHOW_MODAL, HIDE_MODAL, REQUEST_MESSAGES } from "../actions";
+import {
+    SHOW_MODAL,
+    HIDE_MODAL,
+    FETCH_QUEUES_REQUEST,
+    FETCH_QUEUES_SUCCESS,
+    FETCH_QUEUES_FAILURE,
+    FETCH_QUEUE_REQUEST,
+    FETCH_QUEUE_SUCCESS,
+    FETCH_QUEUE_FAILURE,
+    ADD_QUEUE_REQUEST,
+    ADD_QUEUE_SUCCESS,
+    ADD_QUEUE_FAILURE,
+    DELETE_QUEUE_REQUEST,
+    DELETE_QUEUE_SUCCESS,
+    DELETE_QUEUE_FAILURE,
+    FETCH_MESSAGES_SUCCESS,
+    FETCH_MESSAGES_REQUEST,
+    FETCH_MESSAGES_FAILURE
+} from "../actions";
 
 const initialState = {
     queues: new Map(),
@@ -8,16 +26,22 @@ const initialState = {
 };
 
 const appStore = (state = initialState, action) => {
-    let queue, updatedQueues;
+    let queue, updatedQueues, queues;
     switch (action.type) {
-        case REQUEST_QUEUES:
-            const queues = new Map();
+        case FETCH_QUEUES_REQUEST:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case FETCH_QUEUES_SUCCESS:
+            queues = new Map();
             action.queues.forEach(element => {
                 queues.set(element.name, element);
             });
 
-            return Object.assign({}, state, { queues, isFetching: !action.isFetching });
-        case REQUEST_QUEUE:
+            return Object.assign({}, state, { queues, isFetching: action.isFetching });
+        case FETCH_QUEUES_FAILURE:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case FETCH_QUEUE_REQUEST:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case FETCH_QUEUE_SUCCESS:
             queue = action.queue;
 
             const prevValue = state.queues.get(queue.name);
@@ -26,31 +50,40 @@ const appStore = (state = initialState, action) => {
             updatedQueues = new Map(state.queues);
             updatedQueues.set(queue.name, nextValue);
 
-            return Object.assign({}, state, { queues: updatedQueues, isFetching: !action.isFetching });
-        case ADD_QUEUE:
+            return Object.assign({}, state, { queues: updatedQueues, isFetching: action.isFetching });
+        case FETCH_QUEUE_FAILURE:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case ADD_QUEUE_REQUEST:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case ADD_QUEUE_SUCCESS:
             queue = action.queue;
             updatedQueues = new Map(state.queues);
             updatedQueues.set(queue.name, queue);
 
-            return Object.assign({}, state, { queues: updatedQueues, isFetching: !action.isFetching });
-        case DELETE_QUEUE:
+            return Object.assign({}, state, { queues: updatedQueues, isFetching: action.isFetching });
+        case ADD_QUEUE_FAILURE:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case DELETE_QUEUE_REQUEST:
+            return Object.assign({}, state, { deleted: action.deleted, toHome: action.toHome });
+        case DELETE_QUEUE_SUCCESS:
             const queueName = action.queueName;
             updatedQueues = new Map(state.queues);
             updatedQueues.delete(queueName);
 
-            return Object.assign({}, state, { queues: updatedQueues, deleted: true, toHome: true });
+            return Object.assign({}, state, { queues: updatedQueues, deleted: action.deleted, toHome: action.toHome });
+        case DELETE_QUEUE_FAILURE:
+            return Object.assign({}, state, { deleted: action.deleted, toHome: action.toHome });
+        case FETCH_MESSAGES_REQUEST:
+            return Object.assign({}, state, { isFetching: action.isFetching });
+        case FETCH_MESSAGES_SUCCESS:
+            return Object.assign({}, state, { messages: action.messages, isFetching: action.isFetching });
+        case FETCH_MESSAGES_FAILURE:
+            return Object.assign({}, state, { isFetching: action.isFetching });
         case SHOW_MODAL:
             return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
-
         case HIDE_MODAL: {
             return Object.assign({}, state, { modalType: null, modalProps: {} });
         }
-        case REQUEST_MESSAGES:
-            return Object.assign(
-                {},
-                state,
-                { messages: action.messages }
-            );
         default:
             return state;
     }
