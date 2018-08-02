@@ -87,9 +87,9 @@ const appStore = (state = initialState, action) => {
             const updatedMessages = state.messages.filter( msg => msg.id !== action.messageId);
             return Object.assign({}, state, { messages: updatedMessages });
         case SHOW_MODAL:
-            return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
+            return Object.assign({}, state, { modalIsOpen: true, modalType: action.modalType, modalProps: action.modalProps });
         case HIDE_MODAL: {
-            return Object.assign({}, state, { modalType: null, modalProps: {} });
+            return Object.assign({}, state, { modalIsOpen: false, modalType: null, modalProps: {} });
         }
         default:
             return state;

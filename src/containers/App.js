@@ -4,8 +4,9 @@ import { withRouter } from 'react-router-dom';
 import ReactModal from 'react-modal';
 import QueueList from '../components/QueueList/QueueList';
 import Button from '../components/Button/Button';
-import { loadQueues } from '../actions';
+import { loadQueues, showNewQueueModal } from '../actions';
 import NewMessageForm from '../components/NewMessageForm/NewMessageForm'
+import NewQueueForm from '../components/NewQueueForm/NewQueueForm'
 import './App.css';
 
 const loadData = ({ loadQueues }) => {
@@ -22,13 +23,12 @@ class App extends Component {
         loadData(this.props);
     }
 
-    handleNewQueueCall(event) {
-        this.props.history.push('/queues/new');
-        event.preventDefault();
+    handleNewQueueCall() {
+        this.props.showNewQueueModal();
     }
 
     render() {
-        const { items, isFetching, modalType } = this.props;
+        const { items, isFetching, modalType, modalIsOpen } = this.props;
 
         return (
             <div className='app__container'>
@@ -42,7 +42,14 @@ class App extends Component {
                         <Button label='Create a New Queue' onClick={this.handleNewQueueCall} class='button button--create'></Button>
                     </div>
                 </div>
-                <ReactModal isOpen = {modalType === 'POST_MESSAGE'} className='modal' overlayClassName="modal-overlay"><NewMessageForm /></ReactModal>
+                <ReactModal
+                    isOpen={modalIsOpen}
+                    className="modal"
+                    overlayClassName="modal-overlay"
+                >
+                    {(modalType === "POST_MESSAGE") && <NewMessageForm />}
+                    {(modalType === "NEW_QUEUE") && <NewQueueForm />}
+                </ReactModal>
             </div>
         )
     }
@@ -52,18 +59,21 @@ const mapStateToProps = (state, ownProps) => {
     const {
         queues,
         isFetching,
-        modalType
+        modalType,
+        modalIsOpen
     } = state.appStore;
 
     return {
         items: Array.from(queues),
         isFetching: isFetching,
-        modalType: modalType
+        modalType: modalType,
+        modalIsOpen: modalIsOpen
     }
 };
 
 export default withRouter(
     connect(mapStateToProps, {
-        loadQueues
+        loadQueues,
+        showNewQueueModal
     })(App)
 );

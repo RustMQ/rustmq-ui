@@ -47,7 +47,7 @@ class NewQueueForm extends Component {
                     <div className="new-queue-form__controls">
                         <div className="new-queue-form__control">
                             <label className="new-queue-form__control__label" htmlFor="queueName">Name:</label>
-                            <input className="new-queue-form__control__input" id="queueName" name="name" type="text" value={this.state.name} onChange={this.handleInputChange} />
+                            <input className="new-queue-form__control__input" placeholder="Enter Queue Name" id="queueName" name="name" type="text" value={this.state.name} onChange={this.handleInputChange} />
                         </div>
                         <div className="new-queue-form__control">
                             <label className="new-queue-form__control__label" htmlFor="queueType">Type:</label>
