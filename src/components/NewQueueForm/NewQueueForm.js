@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addNewQueue } from '../../actions';
+import { addNewQueue, hideModal } from '../../actions';
+import Button from '../Button/Button';
+import './NewQueueForm.css';
 
 class NewQueueForm extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class NewQueueForm extends Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleInputChange(event) {
@@ -26,30 +28,39 @@ class NewQueueForm extends Component {
 
     handleSubmit(event) {
         this.props.addNewQueue(this.state).then(() => {
-            this.setState({
-                toHome: true
-            });
+            this.props.hideModal();
         });
         event.preventDefault();
     }
 
+    handleClose() {
+        this.props.hideModal();
+    }
+
     render() {
-        if (this.state.toHome === true) {
-            return <Redirect to='/' />
-        }
 
         return (
-            <div>
-                <p>New Queue</p>
+            <div className="new-queue-form">
+                <Button onClick={this.handleClose} class="button button--close new-queue-form__close-button" />
+                <div className="new-queue-form__header">New Queue</div>
                 <form onSubmit={this.handleSubmit} className="ui form">
-                    <div className="three wide inline required field">
-                        <label htmlFor="queueName">
-                            Name:
-                        </label>
-                        <input id="queueName" name="name" type="text" value={this.state.name} onChange={this.handleInputChange} />
+                    <div className="new-queue-form__controls">
+                        <div className="new-queue-form__control">
+                            <label className="new-queue-form__control__label" htmlFor="queueName">Name:</label>
+                            <input className="new-queue-form__control__input" id="queueName" name="name" type="text" value={this.state.name} onChange={this.handleInputChange} />
+                        </div>
+                        <div className="new-queue-form__control">
+                            <label className="new-queue-form__control__label" htmlFor="queueType">Type:</label>
+                            <select className="new-queue-form__control__select" name="queueType">
+                                <option>Pull</option>
+                                <option>Unicast</option>
+                                <option>Multicast</option>
+                            </select>
+                        </div>
+                        <div className="new-message-form__modal__buttons">
+                            <Button label="Create" class="button button--send" />
+                        </div>  
                     </div>
-                    <br />
-                    <input type="submit" value="Submit" />
                 </form>
             </div>
         )
@@ -60,4 +71,4 @@ const mapStateToProps = (state, ownProps) => {
     return {}
 };
 
-export default connect(mapStateToProps, {addNewQueue})(NewQueueForm);
+export default connect(mapStateToProps, { addNewQueue, hideModal })(NewQueueForm);
