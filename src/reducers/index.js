@@ -8,7 +8,6 @@ import {
     FETCH_QUEUE_REQUEST,
     FETCH_QUEUE_SUCCESS,
     FETCH_QUEUE_FAILURE,
-    ADD_QUEUE_REQUEST,
     ADD_QUEUE_SUCCESS,
     ADD_QUEUE_FAILURE,
     DELETE_QUEUE_REQUEST,
@@ -53,8 +52,6 @@ const appStore = (state = initialState, action) => {
 
             return Object.assign({}, state, { queues: updatedQueues, isFetching: action.isFetching });
         case FETCH_QUEUE_FAILURE:
-            return Object.assign({}, state, { isFetching: action.isFetching });
-        case ADD_QUEUE_REQUEST:
             return Object.assign({}, state, { isFetching: action.isFetching });
         case ADD_QUEUE_SUCCESS:
             queue = action.queue;
