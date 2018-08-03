@@ -14,7 +14,6 @@
 
 .message-list-item__status {
     width: 100px;
-    flex: 1;
 }
 
 .message-list-item__body {
@@ -22,9 +21,5 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.message-list-item__controls {
-    flex: 1;
 }
 

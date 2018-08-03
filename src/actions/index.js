@@ -19,6 +19,9 @@ export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const FETCH_MESSAGES_REQUEST = 'FETCH_MESSAGES_REQUEST';
 export const FETCH_MESSAGES_SUCCESS = 'FETCH_MESSAGES_SUCCESS';
 export const FETCH_MESSAGES_FAILURE = 'FETCH_MESSAGES_FAILURE';
+export const DELETE_MESSAGE_REQUEST = 'DELETE_MESSAGE_REQUEST';
+export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
+export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
@@ -198,7 +201,7 @@ export const postMessage = (queueName, message) => async (dispatch) => {
             message
         ]
     };
-    
+
     dispatch(sendMessageRequest(queueName, message));
     try {
         await fetch(fullUrl, {
@@ -216,14 +219,16 @@ export const postMessage = (queueName, message) => async (dispatch) => {
     }
 }
 
-export const fetchMessagesRequest = () => ({
+export const fetchMessagesRequest = (queueName) => ({
     type: FETCH_MESSAGES_REQUEST,
+    queueName,
     isFetching: true
 });
 
-export const fetchMessagesSuccess = (messages) => ({
+export const fetchMessagesSuccess = (queueName, messages) => ({
     type: FETCH_MESSAGES_SUCCESS,
-    messages: messages,
+    queueName,
+    messages,
     isFetching: false
 });
 
@@ -236,12 +241,12 @@ export const fetchMessagesFailure = (error) => ({
 export const loadMessages = (queueName) => async (dispatch) => {
     // fetch
     const fullUrl = API_ROOT + `queues/${queueName}/messages?n=100`;
-    dispatch(fetchMessagesRequest());
+    dispatch(fetchMessagesRequest(queueName));
     try {
         const response = await fetch(fullUrl);
         const json = await response.json();
-        
-        return dispatch(fetchMessagesSuccess(json.messages))
+
+        return dispatch(fetchMessagesSuccess(queueName, json.messages))
     } catch (err) {
         console.log('Error: ', err);
         return dispatch(fetchMessagesFailure(err));
@@ -262,4 +267,33 @@ export const hideModal = () => (dispatch) => {
     return dispatch({
         type: HIDE_MODAL
     });
+};
+
+export const deleteMessageRequest = (queueName, messageId) => ({
+    type: DELETE_MESSAGE_REQUEST,
+    queueName,
+    messageId
+});
+
+export const deleteMessageSucess = (queueName, messageId) => ({
+    type: DELETE_MESSAGE_SUCCESS,
+    queueName,
+    messageId
+});
+
+export const deleteMessageFailure = (error) => ({
+    type: DELETE_MESSAGE_FAILURE,
+    error: error
+});
+
+export const deleteMessage = (queueName, messageId) => async (dispatch) => {
+    const fullUrl = API_ROOT + `queues/${queueName}/messages/${messageId}`;
+    dispatch(deleteMessageRequest(queueName, messageId));
+    try {
+        await fetch(fullUrl, { method: 'DELETE', body: JSON.stringify({}) });
+        return dispatch(deleteMessageSucess(queueName, messageId));
+    } catch(err) {
+        console.log('Error: ', err);
+        return dispatch(deleteMessageFailure(err));
+    }
 };
