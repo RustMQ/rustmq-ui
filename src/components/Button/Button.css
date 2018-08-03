@@ -58,7 +58,7 @@
 
 .button--close > .button__label::after,
 .button--delete > .button__label::after {
-    content: "✖"
+    content: "\2716"
 }
 
 .button--delete {
