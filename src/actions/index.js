@@ -28,7 +28,8 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
-    isFetching: true
+    isFetching: true,
+    toHome: false
 });
 
 const fetchQueuesSuccess = (queues) => ({

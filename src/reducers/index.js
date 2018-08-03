@@ -36,7 +36,7 @@ const appStore = (state = initialState, action) => {
                 queues.set(element.name, element);
             });
 
-            return Object.assign({}, state, { queues, isFetching: action.isFetching });
+            return Object.assign({}, state, { queues, isFetching: action.isFetching, toHome: action.toHome });
         case FETCH_QUEUES_FAILURE:
             return Object.assign({}, state, { isFetching: action.isFetching });
         case FETCH_QUEUE_REQUEST:
