@@ -1,0 +1,67 @@
+.new-queue-form {
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    color: #828792;
+    padding: 0 40px;
+    margin: 200px auto;
+    max-width: 480px;
+}
+
+.new-queue-form__header {
+    margin: 24px 0;
+    font-size: 24px;
+    text-align: center;
+    color: #171727;
+}
+
+.new-queue-form__close-button {
+    position: absolute;
+    right: -36px;
+    top: -36px;
+}
+
+.new-queue-form__controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.new-queue-form__control {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.new-queue-form__control__select {
+    background-color: #fff;
+}
+
+.new-queue-form__control__input,
+.new-queue-form__control__select {
+    border: 2px solid #adbec6;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    flex-grow: 1;
+}
+
+.new-queue-form__control__input:focus,
+.new-queue-form__control__select:focus {
+    outline: none;
+}
+
+.new-queue-form__control__label {
+    padding: 12px;
+    width: 80px;
+    font-size: 14px;
+}
+
+.new-queue-form__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0 30px 0;
+}

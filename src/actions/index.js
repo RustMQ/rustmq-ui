@@ -28,7 +28,8 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
-    isFetching: true
+    isFetching: true,
+    toHome: false
 });
 
 const fetchQueuesSuccess = (queues) => ({
@@ -262,6 +263,14 @@ export const showPostMessageModal = (queueName) => (dispatch) => {
         }
     });
 };
+
+export const showNewQueueModal = () => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'NEW_QUEUE',
+        modalProps: {}
+    });
+}
 
 export const hideModal = () => (dispatch) => {
     return dispatch({

@@ -36,7 +36,7 @@
     justify-content: center;
 }
 
-.button--send > .button__label::before {
+.button--send--icon > .button__label::before {
     display: inline-block;
     width: 16px;
     height: 16px;

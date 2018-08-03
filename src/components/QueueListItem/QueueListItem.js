@@ -33,7 +33,7 @@ class QueueListItem extends Component {
           </div>
         </Link>
         <div className='queue-list-item__controls'> 
-          <Button onClick={this.handleClick} label='New Message' class='button button--send'></Button>
+          <Button onClick={this.handleClick} label='New Message' class='button button--send button--send--icon'></Button>
         </div>
       </li>
     );

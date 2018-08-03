@@ -9,7 +9,6 @@ import {
     FETCH_QUEUE_REQUEST,
     FETCH_QUEUE_SUCCESS,
     FETCH_QUEUE_FAILURE,
-    ADD_QUEUE_REQUEST,
     ADD_QUEUE_SUCCESS,
     ADD_QUEUE_FAILURE,
     DELETE_QUEUE_REQUEST,
@@ -38,7 +37,7 @@ const appStore = (state = initialState, action) => {
                 queues.set(element.name, element);
             });
 
-            return Object.assign({}, state, { queues, isFetching: action.isFetching });
+            return Object.assign({}, state, { queues, isFetching: action.isFetching, toHome: action.toHome });
         case FETCH_QUEUES_FAILURE:
             return Object.assign({}, state, { isFetching: action.isFetching });
         case FETCH_QUEUE_REQUEST:
@@ -54,8 +53,6 @@ const appStore = (state = initialState, action) => {
 
             return Object.assign({}, state, { queues: updatedQueues, isFetching: action.isFetching });
         case FETCH_QUEUE_FAILURE:
-            return Object.assign({}, state, { isFetching: action.isFetching });
-        case ADD_QUEUE_REQUEST:
             return Object.assign({}, state, { isFetching: action.isFetching });
         case ADD_QUEUE_SUCCESS:
             queue = action.queue;
@@ -88,9 +85,9 @@ const appStore = (state = initialState, action) => {
             const updatedMessages = removeFromArray(state.messages, action.messageId);
             return Object.assign({}, state, { messages: updatedMessages });
         case SHOW_MODAL:
-            return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
+            return Object.assign({}, state, { modalIsOpen: true, modalType: action.modalType, modalProps: action.modalProps });
         case HIDE_MODAL: {
-            return Object.assign({}, state, { modalType: null, modalProps: {} });
+            return Object.assign({}, state, { modalIsOpen: false, modalType: null, modalProps: {} });
         }
         default:
             return state;
