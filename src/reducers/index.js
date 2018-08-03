@@ -1,3 +1,4 @@
+import { removeFromArray } from "../utils/removeFromArray";
 import { combineReducers } from "redux";
 import {
     SHOW_MODAL,
@@ -84,7 +85,7 @@ const appStore = (state = initialState, action) => {
         case FETCH_MESSAGES_FAILURE:
             return Object.assign({}, state, { isFetching: action.isFetching });
         case DELETE_MESSAGE_SUCCESS:
-            const updatedMessages = state.messages.filter( msg => msg.id !== action.messageId);
+            const updatedMessages = removeFromArray(state.messages, action.messageId);
             return Object.assign({}, state, { messages: updatedMessages });
         case SHOW_MODAL:
             return Object.assign({}, state, { modalType: action.modalType, modalProps: action.modalProps });
