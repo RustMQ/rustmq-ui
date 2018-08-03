@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addNewQueue, hideModal } from '../../actions';
+import { addNewQueue, loadQueues , hideModal } from '../../actions';
 import Button from '../Button/Button';
 import './NewQueueForm.css';
 
@@ -15,7 +15,7 @@ class NewQueueForm extends Component {
     handleSubmit(event) {
         const { queueName } = this.form;
         this.props.addNewQueue({ name: queueName.value }).then(() => {
-            this.props.hideModal();
+            this.props.loadQueues().then(() => this.props.hideModal());
         });
         event.preventDefault();
     }
@@ -58,4 +58,4 @@ const mapStateToProps = (state, ownProps) => {
     return {}
 };
 
-export default connect(mapStateToProps, { addNewQueue, hideModal })(NewQueueForm);
+export default connect(mapStateToProps, { addNewQueue, loadQueues, hideModal })(NewQueueForm);
