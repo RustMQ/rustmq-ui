@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { loadQueue, removeQueue, loadMessages } from '../actions'
 import MessageList from '../components/MessageList/MessageList';
+import SubscriberList from '../components/SubscriberList/SubscriberList'
 import Button from '../components/Button/Button'
 import './Queue.css';
 
@@ -43,7 +44,7 @@ class Queue extends Component {
         }
 
         return (
-            <div className="queue-page__container">
+            <div className="queue-page__container"> 
                 <div className="queue-page__container__message-list">
                     <MessageList items={messages}/>
                 </div>
@@ -56,6 +57,9 @@ class Queue extends Component {
                     </div>
                     <div className="queue-page__container__queue__item">
                         Type: { queue.type }
+                    </div>
+                    <div className="queue-page__container__queue__item">
+                        <SubscriberList  subscribers={queue.push.subscribers}/>
                     </div>
                     <div className="queue-page__container__queue__controls">
                         <Button label="Delete a Queue" onClick={this.handleDeleteQueue} class="button button--send"></Button>
