@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import './SubscriberList.css'
+import SubscriberListItem from '../SubscriberListItem/SubscriberListItem';
 
 class SubscriberList extends Component {
 
     render() {
         const { subscribers } = this.props;
 
-        const listItems = subscribers.map((s, index) => {
-            return <li key={index}>{s.url}</li>;
+        const listItems = subscribers.map((subscriber, index) => {
+            return <SubscriberListItem key={index} subscriber={subscriber} />;
         });
 
         return (

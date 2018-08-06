@@ -11,14 +11,21 @@
     border-radius: 5px;
     box-shadow: 0 0 15px rgba(0,0,0,.1);
 }
+.queue-page__container__queue__info {
+    flex-grow: 1;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
 
 .queue-page__container__queue__container {
-    flex-grow: 1;
     align-self: flex-start;
     background-color: #fff;
+    width: 100%;
     border-radius: 5px;
     box-shadow: 0 0 15px rgba(0,0,0,.1);
     margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 .queue-page__container__queue__item {
