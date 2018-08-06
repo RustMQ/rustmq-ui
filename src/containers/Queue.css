@@ -31,7 +31,7 @@
 .queue-page__container__queue__item {
     color: #828792;
     font-size: 18px;
-    padding: 14px 30px;
+    padding: 14px 30px 0 30px;
 }
 
 .queue-page__container__queue__header {

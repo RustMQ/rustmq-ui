@@ -81,7 +81,10 @@ class Queue extends Component {
                         </div>
                         <div className="queue-page__container__queue__item">
                             Subscribers:
-                        <SubscriberList subscribers={queue.push.subscribers} />
+                            <SubscriberList subscribers={queue.push.subscribers} />
+                        </div>
+                        <div className="queue-page__container__queue__controls">
+                            <Button label="Add new Subscriber" class="button button--send"></Button>
                         </div>
                     </div>}
                 </div>
