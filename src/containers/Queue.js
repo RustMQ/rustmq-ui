@@ -44,23 +44,38 @@ class Queue extends Component {
         }
 
         return (
-            <div className="queue-page__container"> 
+            <div className="queue-page__container">
                 <div className="queue-page__container__message-list">
-                    <MessageList items={messages}/>
+                    <MessageList items={messages} />
                 </div>
                 <div className="queue-page__container__queue__container">
                     <div className="queue-page__container__queue__header">
                         {queue.name}
                     </div>
                     <div className="queue-page__container__queue__item">
+                        Type: {queue.type}
+                    </div>
+                    <div className="queue-page__container__queue__item">
                         Size: {queue.size}
                     </div>
                     <div className="queue-page__container__queue__item">
-                        Type: { queue.type }
+                        Total messages: {queue.total_messages}
                     </div>
-                    <div className="queue-page__container__queue__item">
-                        <SubscriberList  subscribers={queue.push.subscribers}/>
-                    </div>
+                    {queue.type !== 'pull' && <div>
+                        <div className="queue-page__container__queue__item">
+                            Retries: {queue.push.retries}
+                        </div>
+                        <div className="queue-page__container__queue__item">
+                            Retries Delay: {queue.push.retries_delay}
+                        </div>
+                        <div className="queue-page__container__queue__item">
+                            Error Queue: {queue.push.error_queue}
+                        </div>
+                        <div className="queue-page__container__queue__item">
+                            Subscribers:
+                        <SubscriberList subscribers={queue.push.subscribers} />
+                        </div>
+                    </div>}
                     <div className="queue-page__container__queue__controls">
                         <Button label="Delete a Queue" onClick={this.handleDeleteQueue} class="button button--send"></Button>
                     </div>
