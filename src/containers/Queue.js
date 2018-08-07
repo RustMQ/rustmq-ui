@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
-import { loadQueue, removeQueue, loadMessages } from '../actions'
+import ReactModal from 'react-modal';
+import { 
+    loadQueue,
+    removeQueue,
+    loadMessages,
+    showNewSubscriberModal,
+    showUpdateSubscriberModal
+} from '../actions'
 import MessageList from '../components/MessageList/MessageList';
 import SubscriberList from '../components/SubscriberList/SubscriberList'
+import Subscriber from '../components/Subscriber/Subscriber';
 import Button from '../components/Button/Button'
 import './Queue.css';
+
 
 const loadData = async ({ loadQueue, loadMessages, match, deleted }) => {
     if (deleted === true) {
@@ -20,6 +29,7 @@ class Queue extends Component {
         super(props);
 
         this.handleDeleteQueue = this.handleDeleteQueue.bind(this);
+        this.handleAddSubscriber = this.handleAddSubscriber.bind(this);
     }
 
     componentDidMount() {
@@ -32,8 +42,13 @@ class Queue extends Component {
         this.props.removeQueue(queue.name);
     }
 
+    handleAddSubscriber() {
+        const { queue } = this.props;
+        this.props.showNewSubscriberModal(queue.name);
+    }
+
     render() {
-        const { queue, messages, isFetching, toHome } = this.props;
+        const { queue, messages, isFetching, toHome, modalIsOpen } = this.props;
 
         if (toHome === true) {
             return <Redirect to='/' />
@@ -81,13 +96,20 @@ class Queue extends Component {
                         </div>
                         <div className="queue-page__container__queue__item">
                             Subscribers:
-                            <SubscriberList subscribers={queue.push.subscribers} />
+                            <SubscriberList queueName={queue.name} subscribers={queue.push.subscribers} />
                         </div>
                         <div className="queue-page__container__queue__controls">
-                            <Button label="Add new Subscriber" class="button button--send"></Button>
+                            <Button label="Add new Subscriber" onClick={this.handleAddSubscriber} class="button button--send"></Button>
                         </div>
                     </div>}
                 </div>
+                <ReactModal
+                    isOpen={modalIsOpen}
+                    className="modal"
+                    overlayClassName="modal-overlay"
+                >
+                    <Subscriber />
+                </ReactModal>
             </div>
         )
     }
@@ -99,7 +121,8 @@ const mapStateToProps = (state, ownProps) => {
         messages,
         isFetching,
         deleted,
-        toHome
+        toHome,
+        modalIsOpen
     } = state.appStore;
 
     const queue = queues.get(ownProps.match.params.queueName);
@@ -109,7 +132,8 @@ const mapStateToProps = (state, ownProps) => {
         messages,
         isFetching,
         deleted,
-        toHome
+        toHome,
+        modalIsOpen
     }
 };
 
@@ -117,6 +141,8 @@ export default withRouter(
     connect(mapStateToProps, {
         loadQueue,
         removeQueue,
-        loadMessages
+        loadMessages,
+        showNewSubscriberModal,
+        showUpdateSubscriberModal
     })(Queue)
 );

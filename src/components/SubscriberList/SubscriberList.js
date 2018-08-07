@@ -5,10 +5,10 @@ import SubscriberListItem from '../SubscriberListItem/SubscriberListItem';
 class SubscriberList extends Component {
 
     render() {
-        const { subscribers } = this.props;
+        const { subscribers, queueName } = this.props;
 
         const listItems = subscribers.map((subscriber, index) => {
-            return <SubscriberListItem key={index} subscriber={subscriber} />;
+            return <SubscriberListItem key={index} queueName={queueName} subscriber={subscriber} />;
         });
 
         return (
