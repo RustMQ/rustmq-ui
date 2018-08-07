@@ -25,6 +25,7 @@ export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
+export const UPDATE_SUBSCRIBER_MODAL_PROPS = 'UPDATE_MODAL_PROPS'; 
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -295,6 +296,13 @@ export const showUpdateSubscriberModal = (queueName, subscriber) => (dispatch) =
             queueName,
             subscriber
         }
+    })
+}
+
+export const updateSubscriberModalProps = (subscriber) => (dispatch) => {
+    return dispatch({
+        type: UPDATE_SUBSCRIBER_MODAL_PROPS,
+        subscriber
     })
 }
 
