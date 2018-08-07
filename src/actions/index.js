@@ -272,6 +272,32 @@ export const showNewQueueModal = () => (dispatch) => {
     });
 }
 
+export const showNewSubscriberModal = (queueName) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'NEW_SUBSCRIBER',
+        modalProps: {
+            queueName,
+            subscriber: {
+                name: '',
+                url: '',
+                headers: []
+            }
+        }
+    });
+};
+
+export const showUpdateSubscriberModal = (queueName, subscriber) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'UPDATE_SUBSCRIBER',
+        modalProps: {
+            queueName,
+            subscriber
+        }
+    })
+}
+
 export const hideModal = () => (dispatch) => {
     return dispatch({
         type: HIDE_MODAL
@@ -301,7 +327,7 @@ export const deleteMessage = (queueName, messageId) => async (dispatch) => {
     try {
         await fetch(fullUrl, { method: 'DELETE', body: JSON.stringify({}) });
         return dispatch(deleteMessageSucess(queueName, messageId));
-    } catch(err) {
+    } catch (err) {
         console.log('Error: ', err);
         return dispatch(deleteMessageFailure(err));
     }
