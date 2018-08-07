@@ -63,3 +63,12 @@
     font-size: 14px;
     width: 100%;
 }
+
+.subscriber__controls__control__headers__input-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.subscriber__controls__control__headers__input-group > .subscriber__controls__control__input {
+    flex-grow: 0;
+}

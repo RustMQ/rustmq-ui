@@ -34,7 +34,7 @@ class Subscriber extends Component {
                     <div className="subscriber__controls__control">
                         <label className="subscriber__controls__control__label">Headers</label>
                         <div className="subscriber__controls__control__headers">
-                            <div className="subscriber__controls__control">
+                            <div className="subscriber__controls__control__headers__input-group">
                                 <input className="subscriber__controls__control__input" placeholder="e.g. Content-Type" type="text" />
                                 <input className="subscriber__controls__control__input" placeholder="e.g. application/json" type="text" />
                                 <Button class="button button--add"></Button>
