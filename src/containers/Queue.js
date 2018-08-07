@@ -108,7 +108,7 @@ class Queue extends Component {
                     className="modal"
                     overlayClassName="modal-overlay"
                 >
-                    <Subscriber />
+                    {modalIsOpen && <Subscriber />}
                 </ReactModal>
             </div>
         )
