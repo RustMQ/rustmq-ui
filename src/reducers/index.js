@@ -19,7 +19,7 @@ import {
     FETCH_MESSAGES_FAILURE,
     DELETE_MESSAGE_SUCCESS,
     UPDATE_SUBSCRIBER_MODAL_PROPS
-    
+
 } from "../actions";
 
 const initialState = {
@@ -103,7 +103,7 @@ const appStore = (state = initialState, action) => {
             return Object.assign({}, state, { modalIsOpen: false, modalType: null, modalProps: {} });
         }
         case UPDATE_SUBSCRIBER_MODAL_PROPS:
-            return Object.assign({}, state, { modalProps: { ...action.modalProps, subscriber: action.subscriber}});
+            return Object.assign({}, state, { modalProps: { ...state.modalProps, subscriber: action.subscriber}});
         default:
             return state;
     }
