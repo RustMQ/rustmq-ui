@@ -6,16 +6,16 @@
     justify-content: center;
     background-color: #fff;
     color: #828792;
-    padding: 0 40px;
     margin: 200px auto;
-    max-width: 480px;
+    max-width: 600px;
 }
 
 .new-queue-form__header {
-    margin: 24px 0;
+    padding: 24px 0;
     font-size: 24px;
     text-align: center;
     color: #171727;
+    border-bottom: 1px solid #adbec6;
 }
 
 .new-queue-form__close-button {
@@ -26,6 +26,7 @@
 
 .new-queue-form__controls {
     display: flex;
+    margin: 0 80px;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -34,6 +35,10 @@
     display: flex;
     justify-content: space-between;
     margin: 5px 0;
+}
+
+.new-queue-form__controls__type-selector {
+    margin: 40px 0;
 }
 
 .new-queue-form__control__select {
@@ -47,6 +52,10 @@
     border-radius: 5px;
     font-family: 'Roboto', sans-serif;
     flex-grow: 1;
+}
+
+.new-queue-form__control__input--single {
+    margin: 0 20px;
 }
 
 .new-queue-form__control__input:focus,
@@ -64,4 +73,14 @@
     display: flex;
     justify-content: flex-end;
     margin: 20px 0 30px 0;
+}
+
+.new-queue-form__buttons--centered {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 30px 0;
+}
+
+.new-queue-form__buttons__button--next {
+    padding: 10px 50px;
 }

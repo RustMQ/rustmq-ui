@@ -1,0 +1,35 @@
+.queue-type-selector {
+
+}
+
+.queue-type-selector__controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.queue-type-selector__controls__radio {
+    display: none;
+}
+
+.queue-type-selector__controls__label {
+    text-align: center;
+    display: inline-block;
+    width: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: box-shadow .2s;
+}
+
+.queue-type-selector__controls__label::before {
+    content: '';
+    display: block;
+    height: 100px;
+    width: 100px;
+    margin: 0 auto;
+}
+
+.queue-type-selector__controls__radio:checked + .queue-type-selector__controls__label {
+    box-shadow: 0 0 15px #3ac5a9;
+    color: #171727;
+}

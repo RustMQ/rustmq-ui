@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import QueueTypeSelector from './QueueTypeSelector';
 import { addNewQueue, loadQueues , hideModal } from '../../actions';
 import Button from '../Button/Button';
 import './NewQueueForm.css';
+
+const QUEUE_TYPE = {
+    pull: 'pull',
+    unicast: 'unicast',
+    multicast: 'multicast'
+};
 
 class NewQueueForm extends Component {
     constructor(props) {
@@ -10,6 +17,10 @@ class NewQueueForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
+    }
+
+    componentDidMount() {
+        this.form.queueType.value = QUEUE_TYPE.pull;
     }
 
     handleSubmit(event) {
@@ -29,23 +40,15 @@ class NewQueueForm extends Component {
         return (
             <div className="new-queue-form">
                 <Button onClick={this.handleClose} class="button button--close new-queue-form__close-button" />
-                <div className="new-queue-form__header">New Queue</div>
+                <div className="new-queue-form__header">Create New Queue</div>
                 <form ref={form => this.form = form} onSubmit={this.handleSubmit}>
                     <div className="new-queue-form__controls">
+                        <QueueTypeSelector name="queueType" className="new-queue-form__controls__type-selector" />
                         <div className="new-queue-form__control">
-                            <label className="new-queue-form__control__label" htmlFor="queueName">Name:</label>
-                            <input className="new-queue-form__control__input" placeholder="Enter Queue Name" id="queueName" name="queueName" type="text"/>
+                            <input className="new-queue-form__control__input new-queue-form__control__input--single" placeholder="Enter Queue Name" id="queueName" name="queueName" type="text"/>
                         </div>
-                        <div className="new-queue-form__control">
-                            <label className="new-queue-form__control__label" htmlFor="queueType">Type:</label>
-                            <select className="new-queue-form__control__select" name="queueType">
-                                <option>Pull</option>
-                                <option>Unicast</option>
-                                <option>Multicast</option>
-                            </select>
-                        </div>
-                        <div className="new-message-form__modal__buttons">
-                            <Button label="Create" class="button button--send" />
+                        <div className="new-queue-form__buttons--centered">
+                            <Button label="Next" class="button button--send new-queue-form__buttons__button--next" />
                         </div>
                     </div>
                 </form>
