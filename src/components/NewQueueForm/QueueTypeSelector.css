@@ -19,6 +19,7 @@
     border-radius: 5px;
     border: 1px solid transparent;
     transition: box-shadow .2s;
+    cursor: pointer;
 }
 
 .queue-type-selector__controls__label::before {

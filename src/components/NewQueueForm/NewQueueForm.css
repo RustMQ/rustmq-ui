@@ -11,11 +11,19 @@
 }
 
 .new-queue-form__header {
-    padding: 24px 0;
     font-size: 24px;
+    border-bottom: 1px solid #adbec6;
+}
+
+.new-queue-form__queue-name {
+    font-size: 18px;
+}
+
+.new-queue-form__header,
+.new-queue-form__queue-name {
+    padding: 24px 0;
     text-align: center;
     color: #171727;
-    border-bottom: 1px solid #adbec6;
 }
 
 .new-queue-form__close-button {
@@ -26,7 +34,7 @@
 
 .new-queue-form__controls {
     display: flex;
-    margin: 0 80px;
+    margin: 0 40px;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -38,7 +46,7 @@
 }
 
 .new-queue-form__controls__type-selector {
-    margin: 40px 0;
+    margin: 40px;
 }
 
 .new-queue-form__control__select {
@@ -65,7 +73,7 @@
 
 .new-queue-form__control__label {
     padding: 12px;
-    width: 80px;
+    width: 100px;
     font-size: 14px;
 }
 
