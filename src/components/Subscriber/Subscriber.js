@@ -99,11 +99,11 @@ class Subscriber extends Component {
                 <form ref={form => this.form = form} onSubmit={this.handleSubmit} className="subscriber__controls">
                     <div className="subscriber__controls__control">
                         <label className="subscriber__controls__control__label" htmlFor="name">Name</label>
-                        <input className="subscriber__controls__control__input" disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={name} placeholder="Subscriber name" id="name" name="name" type="text" />
+                        <input className="subscriber__controls__control__input" required disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={name} placeholder="Subscriber name" id="name" name="name" type="text" />
                     </div>
                     <div className="subscriber__controls__control">
                         <label className="subscriber__controls__control__label" htmlFor="url">URL</label>
-                        <input className="subscriber__controls__control__input" disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={url} placeholder="http://example.com" id="url" name="url" type="text" />
+                        <input className="subscriber__controls__control__input" required disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={url} placeholder="http://example.com" id="url" name="url" type="text" />
                     </div>
                     <div className="subscriber__controls__control">
                         <label className="subscriber__controls__control__label">Headers</label>
@@ -116,10 +116,10 @@ class Subscriber extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="subscriber__controls__control__buttons">
+                        <Button label={type} class="button button--send" />
+                    </div>
                 </form>
-                <div className="subscriber__controls__control__buttons">
-                    <Button onClick={this.handleSubmit} label={type} class="button button--send" />
-                </div>
             </div>
         )
     }
