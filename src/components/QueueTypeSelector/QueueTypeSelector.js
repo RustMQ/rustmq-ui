@@ -36,8 +36,8 @@ class QueueTypeSelector extends Component {
 
         return (
             <form ref={form => this.form = form} onSubmit={this.handleNext}>
-                <div className="new-queue-form__controls">
-                    <div className={`queue-type-selector ${className}`}>
+                <div className="queue-type-selector">
+                    <div className={className}>
                         <div className="queue-type-selector__controls">
                             <div className="queue-type-selector__controls__control">
                                 <input className="queue-type-selector__controls__radio" type="radio" name={name} id="pull" value="pull" />
@@ -53,11 +53,11 @@ class QueueTypeSelector extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="new-queue-form__control">
-                        <input required className="new-queue-form__control__input new-queue-form__control__input--single" placeholder="Enter Queue Name" id="queueName" name="queueName" type="text" />
+                    <div className="queue-type-selector__control">
+                        <input required className="queue-type-selector__control__input queue-type-selector__control__input--single" placeholder="Enter Queue Name" id="queueName" name="queueName" type="text" />
                     </div>
-                    <div className="new-queue-form__buttons--centered">
-                        <Button label="Next" class="button button--send new-queue-form__buttons__button--next" />
+                    <div className="queue-type-selector__buttons--centered">
+                        <Button label="Next" class="button button--send queue-type-selector__buttons__button--next" />
                     </div>
                 </div>
             </form>
