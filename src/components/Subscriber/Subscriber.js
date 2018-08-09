@@ -34,7 +34,7 @@ class Subscriber extends Component {
             updatedHeaders[header.key] = header.value;
         });
 
-        this.props.updateSubscribers(queueName, [{ ...subscriber, headers: updatedHeaders}]).then(() => {
+        this.props.updateSubscribers(queueName, [{ ...subscriber, headers: updatedHeaders }]).then(() => {
             this.props.loadQueue(queueName).then(() => {
                 this.props.hideModal();
             })
@@ -51,25 +51,27 @@ class Subscriber extends Component {
         const { subscriber } = this.props.modalProps;
         const { headerKey, headerValue } = this.form;
 
-        const updatedHeaders = subscriber.headers.concat([]);
+        if (headerKey.value && headerValue.value) {
+            const updatedHeaders = subscriber.headers.concat([]);
 
-        const header = {
-            key: headerKey.value,
-            value: headerValue.value
+            const header = {
+                key: headerKey.value,
+                value: headerValue.value
+            }
+
+            updatedHeaders.push(header);
+
+            this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders });
+            headerKey.value = '';
+            headerValue.value = '';
         }
-
-        updatedHeaders.push(header);
-
-        this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders});
-        headerKey.value = '';
-        headerValue.value = '';
     }
 
     handleRemoveHeader(key) {
         const { subscriber } = this.props.modalProps;
 
         const updatedHeaders = subscriber.headers.filter(header => header.key !== key);
-        this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders});
+        this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders });
     }
 
     renderHeaderListItem(key, value) {

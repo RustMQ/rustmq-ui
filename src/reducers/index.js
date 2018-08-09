@@ -93,9 +93,11 @@ const appStore = (state = initialState, action) => {
                 case 'UPDATE_SUBSCRIBER':
                     const { subscriber } = action.modalProps;
                     const headers = [];
-                    Object.keys(subscriber.headers).forEach((key) => {
-                        headers.push({ key, value: subscriber.headers[key] })
-                    });
+                    if (subscriber.headers) {
+                        Object.keys(subscriber.headers).forEach((key) => {
+                            headers.push({ key, value: subscriber.headers[key] })
+                        });
+                    }
                     const updatedProps = { ...action.modalProps, subscriber: { ...subscriber, headers: headers } };
                     return Object.assign({}, state, { modalIsOpen: true, modalType: action.modalType, modalProps: updatedProps });
                 default:
