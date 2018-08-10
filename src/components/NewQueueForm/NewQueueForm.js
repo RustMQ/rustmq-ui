@@ -101,8 +101,8 @@ class NewQueueForm extends Component {
                 <div className="new-queue-form__controls">
                     {this.renderPullConfig()}
                     {queue.type !== 'pull' && this.renderPushConfig()}
-                    <div className="new-message-form__modal__buttons">
-                        <Button label="Create" class="button button--send" />
+                    <div className="new-message-form__modal__buttons new-queue-form__buttons--centered">
+                        <Button label="Create" class="button button--send new-queue-form__buttons__button--next" />
                     </div>
                 </div>
             </form>
