@@ -1,5 +1,6 @@
 import { removeFromArray } from "../utils/removeFromArray";
 import { combineReducers } from "redux";
+import {reducer as notificationsReducer} from 'reapop';
 import {
     SHOW_MODAL,
     HIDE_MODAL,
@@ -118,7 +119,8 @@ const appStore = (state = initialState, action) => {
 }
 
 const rootReducer = combineReducers({
-    appStore
+    appStore,
+    notifications: notificationsReducer()
 });
 
 export default rootReducer;

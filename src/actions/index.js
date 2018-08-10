@@ -358,7 +358,8 @@ export const removeSubscribersRequest = (queueName, subscribers) => ({
 
 export const removeSubscribersSuccess = (queueName, subscribers) => ({
     type: REMOVE_SUBSCRIBERS_SUCCESS,
-    queueName
+    queueName,
+    subscribers
 });
 
 export const removeSubscribersFailure = (error) => ({
