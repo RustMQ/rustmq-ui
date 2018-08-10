@@ -26,6 +26,10 @@
 }
 
 .queue-type-selector__controls__label::before {
+    transition: background .2s;
+    background-image: url(./queue.png);
+    background-repeat: no-repeat;
+    background-position: center;
     content: '';
     display: block;
     height: 100px;
@@ -36,6 +40,10 @@
 .queue-type-selector__controls__radio:checked + .queue-type-selector__controls__label {
     box-shadow: 0 0 15px #3ac5a9;
     color: #171727;
+}
+
+.queue-type-selector__controls__radio:checked + .queue-type-selector__controls__label::before {
+    background-image: url(./queue-selected.png);
 }
 
 .queue-type-selector__queue-name {
