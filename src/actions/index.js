@@ -147,7 +147,7 @@ export const addNewQueue = (newQueue) => async (dispatch) => {
 
         const json = await response.json();
         const queue = json.queue;
-        dispatch(showNotification('success', 'Queue was successfuly created'));
+        dispatch(showNotification('success', 'Queue was successfully created'));
         return dispatch(addQueueSuccess(queue));
     } catch (err) {
         console.log('Error: ', err);
@@ -183,7 +183,7 @@ export const removeQueue = (queueName) => async (dispatch) => {
         await fetch(fullUrl, {
             method: "DELETE"
         });
-        dispatch(showNotification('success', 'Queue was successfuly deleted'));
+        dispatch(showNotification('success', 'Queue was successfully deleted'));
         return dispatch(deleteQueueSuccess(queueName));
     } catch (err) {
         console.log('Error: ', err);
@@ -223,7 +223,7 @@ export const postMessage = (queueName, message) => async (dispatch) => {
             },
             body: JSON.stringify(body)
         });
-        dispatch(showNotification('success', 'Message was successfuly added'));
+        dispatch(showNotification('success', 'Message was successfully added'));
         return dispatch(sendMessageSuccess());
     } catch (err) {
         console.log('Error: ', err);
@@ -343,7 +343,7 @@ export const deleteMessage = (queueName, messageId) => async (dispatch) => {
     dispatch(deleteMessageRequest(queueName, messageId));
     try {
         await fetch(fullUrl, { method: 'DELETE', body: JSON.stringify({}) });
-        dispatch(showNotification('success', 'Message was successfuly deleted'));
+        dispatch(showNotification('success', 'Message was successfully deleted'));
         return dispatch(deleteMessageSucess(queueName, messageId));
     } catch (err) {
         console.log('Error: ', err);
@@ -379,7 +379,7 @@ export const removeSubscribers = (queueName, subscribers) => async (dispatch) =>
         });
 
         if (response.status === 200) {
-            dispatch(showNotification('success', 'Subscriber was successfuly removed'));
+            dispatch(showNotification('success', 'Subscriber was successfully removed'));
         } else {
             const json = await response.json();
             dispatch(showNotification('error', json.msg));
@@ -418,7 +418,7 @@ export const updateSubscribers = (queueName, subscribers) => async (dispatch) =>
             body: JSON.stringify(body)
         });
 
-        dispatch(showNotification('success', 'Subscribers were successfuly updated'));
+        dispatch(showNotification('success', 'Subscribers were successfully updated'));
 
         return dispatch(updateSubscribersSuccess(queueName, subscribers));
     } catch (err) {
