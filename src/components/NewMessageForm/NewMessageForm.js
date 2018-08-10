@@ -11,11 +11,6 @@ class NewMessageForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.validate = this.validate.bind(this);
-    }
-
-    validate(e) {
-        console.log(e.target.validity);
     }
 
     async handleSubmit(event) {
