@@ -34,9 +34,7 @@ class App extends Component {
         return (
             <div className='app__container'>
                 <div className='app__container__queue-list'>
-                    {
-                        !isFetching && <QueueList items={items} />
-                    }
+                {!(isFetching && items.length === 0) && <QueueList items={items} /> }
                 </div>
                 <div className='app__container__actions'>
                     <div>

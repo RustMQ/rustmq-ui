@@ -54,7 +54,7 @@ class Queue extends Component {
             return <Redirect to='/' />
         }
 
-        if (isFetching) {
+        if (isFetching && messages.length === 0) {
             return null
         }
 

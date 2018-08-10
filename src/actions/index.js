@@ -223,7 +223,7 @@ export const postMessage = (queueName, message) => async (dispatch) => {
             },
             body: JSON.stringify(body)
         });
-        dispatch(showNotification('success', 'Message was successfuly deleted'));
+        dispatch(showNotification('success', 'Message was successfuly added'));
         return dispatch(sendMessageSuccess());
     } catch (err) {
         console.log('Error: ', err);
