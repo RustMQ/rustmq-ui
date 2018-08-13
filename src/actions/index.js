@@ -1,5 +1,6 @@
 import { serialAsyncMap } from '../utils/serialAsyncMap';
 import { API_ROOT } from '../middleware/api';
+import { notify } from 'reapop';
 
 export const FETCH_QUEUES_REQUEST = 'FETCH_QUEUES_REQUEST';
 export const FETCH_QUEUES_SUCCESS = 'FETCH_QUEUES_SUCCESS';
@@ -146,7 +147,7 @@ export const addNewQueue = (newQueue) => async (dispatch) => {
 
         const json = await response.json();
         const queue = json.queue;
-
+        dispatch(showNotification('success', 'Queue was successfully created'));
         return dispatch(addQueueSuccess(queue));
     } catch (err) {
         console.log('Error: ', err);
@@ -182,7 +183,7 @@ export const removeQueue = (queueName) => async (dispatch) => {
         await fetch(fullUrl, {
             method: "DELETE"
         });
-
+        dispatch(showNotification('success', 'Queue was successfully deleted'));
         return dispatch(deleteQueueSuccess(queueName));
     } catch (err) {
         console.log('Error: ', err);
@@ -221,8 +222,8 @@ export const postMessage = (queueName, message) => async (dispatch) => {
                 "Content-Type": "application/json; charset=utf-8",
             },
             body: JSON.stringify(body)
-        })
-
+        });
+        dispatch(showNotification('success', 'Message was successfully added'));
         return dispatch(sendMessageSuccess());
     } catch (err) {
         console.log('Error: ', err);
@@ -256,7 +257,6 @@ export const loadMessages = (queueName) => async (dispatch) => {
     try {
         const response = await fetch(fullUrl);
         const json = await response.json();
-
         return dispatch(fetchMessagesSuccess(queueName, json.messages))
     } catch (err) {
         console.log('Error: ', err);
@@ -343,6 +343,7 @@ export const deleteMessage = (queueName, messageId) => async (dispatch) => {
     dispatch(deleteMessageRequest(queueName, messageId));
     try {
         await fetch(fullUrl, { method: 'DELETE', body: JSON.stringify({}) });
+        dispatch(showNotification('success', 'Message was successfully deleted'));
         return dispatch(deleteMessageSucess(queueName, messageId));
     } catch (err) {
         console.log('Error: ', err);
@@ -358,7 +359,8 @@ export const removeSubscribersRequest = (queueName, subscribers) => ({
 
 export const removeSubscribersSuccess = (queueName, subscribers) => ({
     type: REMOVE_SUBSCRIBERS_SUCCESS,
-    queueName
+    queueName,
+    subscribers
 });
 
 export const removeSubscribersFailure = (error) => ({
@@ -371,10 +373,17 @@ export const removeSubscribers = (queueName, subscribers) => async (dispatch) =>
     const body = { subscribers };
     dispatch(removeSubscribersRequest(queueName, subscribers));
     try {
-        await fetch(fullUrl, {
+        const response = await fetch(fullUrl, {
             method: "DELETE",
             body: JSON.stringify(body)
         });
+
+        if (response.status === 200) {
+            dispatch(showNotification('success', 'Subscriber was successfully removed'));
+        } else {
+            const json = await response.json();
+            dispatch(showNotification('error', json.msg));
+        }
 
         return dispatch(removeSubscribersSuccess(queueName, subscribers));
     } catch (err) {
@@ -409,6 +418,8 @@ export const updateSubscribers = (queueName, subscribers) => async (dispatch) =>
             body: JSON.stringify(body)
         });
 
+        dispatch(showNotification('success', 'Subscribers were successfully updated'));
+
         return dispatch(updateSubscribersSuccess(queueName, subscribers));
     } catch (err) {
         console.log('Error: ', err);
@@ -440,5 +451,16 @@ export const newQueueConfig = () => (dispatch) => {
 };
 
 export const setQueueConfig = (step, queue) => (dispatch) => {
-    dispatch(updateQueueConfig(step,queue));
+    dispatch(updateQueueConfig(step, queue));
+};
+
+const showNotification = (type, message) => {
+    return notify(
+        {
+            message: message,
+            status: type,
+            dismissible: true,
+            dismissAfter: 3000
+        }
+    )
 };
