@@ -1,0 +1,74 @@
+.subscriber {
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    color: #828792;
+    padding: 0 40px;
+    margin: 200px auto;
+    max-width: 480px;
+}
+
+.subscriber__header {
+    margin: 24px 0;
+    font-size: 24px;
+    text-align: center;
+    color: #171727;
+}
+
+.subscriber__controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.subscriber__controls__control {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.subscriber__controls__control__label {
+    padding: 12px 0;
+    width: 80px;
+    font-size: 14px;
+}
+
+.subscriber__controls__control__input {
+    border: 2px solid #adbec6;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    flex-grow: 1;
+}
+
+.subscriber__controls__control__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0 30px 0;
+}
+
+.subscriber__controls__control__headers {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.subscriber__controls__control__header {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0 0 0;
+    font-size: 14px;
+    width: 100%;
+}
+
+.subscriber__controls__control__headers__input-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.subscriber__controls__control__headers__input-group > .subscriber__controls__control__input {
+    flex-grow: 0;
+}

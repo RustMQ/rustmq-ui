@@ -17,7 +17,9 @@ import {
     FETCH_MESSAGES_SUCCESS,
     FETCH_MESSAGES_REQUEST,
     FETCH_MESSAGES_FAILURE,
-    DELETE_MESSAGE_SUCCESS
+    DELETE_MESSAGE_SUCCESS,
+    UPDATE_SUBSCRIBER_MODAL_PROPS
+
 } from "../actions";
 
 const initialState = {
@@ -76,7 +78,7 @@ const appStore = (state = initialState, action) => {
             return Object.assign({}, state, { isFetching: action.isFetching });
         case FETCH_MESSAGES_SUCCESS:
             const messages = action.messages.map(m => {
-                return {...m, queueName: action.queueName}
+                return { ...m, queueName: action.queueName }
             });
             return Object.assign({}, state, { messages: messages, isFetching: action.isFetching });
         case FETCH_MESSAGES_FAILURE:
@@ -85,10 +87,23 @@ const appStore = (state = initialState, action) => {
             const updatedMessages = removeFromArray(state.messages, action.messageId);
             return Object.assign({}, state, { messages: updatedMessages });
         case SHOW_MODAL:
-            return Object.assign({}, state, { modalIsOpen: true, modalType: action.modalType, modalProps: action.modalProps });
+            switch (action.modalType) {
+                case 'UPDATE_SUBSCRIBER':
+                    const { subscriber } = action.modalProps;
+                    const headers = [];
+                    Object.keys(subscriber.headers).forEach((key) => {
+                        headers.push({ key, value: subscriber.headers[key] })
+                    });
+                    const updatedProps = { ...action.modalProps, subscriber: { ...subscriber, headers: headers } };
+                    return Object.assign({}, state, { modalIsOpen: true, modalType: action.modalType, modalProps: updatedProps });
+                default:
+                    return Object.assign({}, state, { modalIsOpen: true, modalType: action.modalType, modalProps: action.modalProps });
+            }
         case HIDE_MODAL: {
             return Object.assign({}, state, { modalIsOpen: false, modalType: null, modalProps: {} });
         }
+        case UPDATE_SUBSCRIBER_MODAL_PROPS:
+            return Object.assign({}, state, { modalProps: { ...state.modalProps, subscriber: action.subscriber}});
         default:
             return state;
     }

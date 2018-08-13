@@ -1,0 +1,11 @@
+.subscriber-list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    transition: background .4s;
+    cursor: pointer;
+}
+
+.subscriber-list-item:hover {
+    background-color: #F1F6F8;
+}

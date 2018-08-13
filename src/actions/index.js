@@ -22,9 +22,16 @@ export const FETCH_MESSAGES_FAILURE = 'FETCH_MESSAGES_FAILURE';
 export const DELETE_MESSAGE_REQUEST = 'DELETE_MESSAGE_REQUEST';
 export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
 export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
+export const UPDATE_SUBSCRIBERS_REQUEST = 'UPDATE_SUBSCRIBERS_REQUEST';
+export const UPDATE_SUBSCRIBERS_SUCCESS = 'UPDATE_SUBSCRIBERS_SUCCESS';
+export const UPDATE_SUBSCRIBERS_FAILURE = 'UPDATE_SUBSCRIBERS_FAILURE';
+export const REMOVE_SUBSCRIBERS_REQUEST = 'REMOVE_SUBSCRIBERS_REQUEST';
+export const REMOVE_SUBSCRIBERS_SUCCESS = 'REMOVE_SUBSCRIBERS_SUCCESS';
+export const REMOVE_SUBSCRIBERS_FAILURE = 'REMOVE_SUBSCRIBERS_FAILURE';
 
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
+export const UPDATE_SUBSCRIBER_MODAL_PROPS = 'UPDATE_MODAL_PROPS'; 
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -272,6 +279,39 @@ export const showNewQueueModal = () => (dispatch) => {
     });
 }
 
+export const showNewSubscriberModal = (queueName) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'NEW_SUBSCRIBER',
+        modalProps: {
+            queueName,
+            subscriber: {
+                name: '',
+                url: '',
+                headers: []
+            }
+        }
+    });
+};
+
+export const showUpdateSubscriberModal = (queueName, subscriber) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'UPDATE_SUBSCRIBER',
+        modalProps: {
+            queueName,
+            subscriber
+        }
+    })
+}
+
+export const updateSubscriberModalProps = (subscriber) => (dispatch) => {
+    return dispatch({
+        type: UPDATE_SUBSCRIBER_MODAL_PROPS,
+        subscriber
+    })
+}
+
 export const hideModal = () => (dispatch) => {
     return dispatch({
         type: HIDE_MODAL
@@ -301,8 +341,74 @@ export const deleteMessage = (queueName, messageId) => async (dispatch) => {
     try {
         await fetch(fullUrl, { method: 'DELETE', body: JSON.stringify({}) });
         return dispatch(deleteMessageSucess(queueName, messageId));
-    } catch(err) {
+    } catch (err) {
         console.log('Error: ', err);
         return dispatch(deleteMessageFailure(err));
+    }
+};
+
+export const removeSubscribersRequest = (queueName, subscribers) => ({
+    type: REMOVE_SUBSCRIBERS_REQUEST,
+    queueName,
+    subscribers
+});
+
+export const removeSubscribersSuccess = (queueName, subscribers) => ({
+    type: REMOVE_SUBSCRIBERS_SUCCESS,
+    queueName
+});
+
+export const removeSubscribersFailure = (error) => ({
+    type: REMOVE_SUBSCRIBERS_FAILURE,
+    error
+});
+
+export const removeSubscribers = (queueName, subscribers) => async (dispatch) => {
+    const fullUrl = API_ROOT + `queues/${queueName}/subscribers`;
+    const body = { subscribers };
+    dispatch(removeSubscribersRequest(queueName, subscribers));
+    try {
+        await fetch(fullUrl, {
+            method: "DELETE",
+            body: JSON.stringify(body)
+        });
+
+        return dispatch(removeSubscribersSuccess(queueName, subscribers));
+    } catch (err) {
+        console.log('Error: ', err);
+        return dispatch(removeSubscribersFailure(err));
+    }
+}
+
+export const updateSubscribersRequest = (queueName, subscribers) => ({
+    type: UPDATE_SUBSCRIBERS_REQUEST,
+    queueName,
+    subscribers
+});
+
+export const updateSubscribersSuccess = (queueName) => ({
+    type: UPDATE_SUBSCRIBERS_SUCCESS,
+    queueName
+});
+
+export const updateSubscribersFailure = (error) => ({
+    type: UPDATE_SUBSCRIBERS_FAILURE,
+    error
+});
+
+export const updateSubscribers = (queueName, subscribers) => async (dispatch) => {
+    const fullUrl = API_ROOT + `queues/${queueName}/subscribers`;
+    const body = { subscribers };
+    dispatch(updateSubscribersRequest(queueName, subscribers));
+    try {
+        await fetch(fullUrl, {
+            method: "POST",
+            body: JSON.stringify(body)
+        });
+
+        return dispatch(updateSubscribersSuccess(queueName, subscribers));
+    } catch (err) {
+        console.log('Error: ', err);
+        return dispatch(updateSubscribersFailure(err));
     }
 };

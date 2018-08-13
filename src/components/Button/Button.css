@@ -58,10 +58,16 @@
 
 .button--close > .button__label::after,
 .button--delete > .button__label::after {
-    content: "\2716"
+    content: "\2716";
 }
 
-.button--delete {
+.button--add > .button__label::after {
+    font-weight: 900;
+    content: "\2795";
+}
+
+.button--delete,
+.button--add {
     background: none;
     color: #828792;
 }
