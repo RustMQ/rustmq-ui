@@ -34,7 +34,7 @@ class Subscriber extends Component {
             updatedHeaders[header.key] = header.value;
         });
 
-        this.props.updateSubscribers(queueName, [{ ...subscriber, headers: updatedHeaders}]).then(() => {
+        this.props.updateSubscribers(queueName, [{ ...subscriber, headers: updatedHeaders }]).then(() => {
             this.props.loadQueue(queueName).then(() => {
                 this.props.hideModal();
             })
@@ -51,25 +51,27 @@ class Subscriber extends Component {
         const { subscriber } = this.props.modalProps;
         const { headerKey, headerValue } = this.form;
 
-        const updatedHeaders = subscriber.headers.concat([]);
+        if (headerKey.value && headerValue.value) {
+            const updatedHeaders = subscriber.headers.concat([]);
 
-        const header = {
-            key: headerKey.value,
-            value: headerValue.value
+            const header = {
+                key: headerKey.value,
+                value: headerValue.value
+            }
+
+            updatedHeaders.push(header);
+
+            this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders });
+            headerKey.value = '';
+            headerValue.value = '';
         }
-
-        updatedHeaders.push(header);
-
-        this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders});
-        headerKey.value = '';
-        headerValue.value = '';
     }
 
     handleRemoveHeader(key) {
         const { subscriber } = this.props.modalProps;
 
         const updatedHeaders = subscriber.headers.filter(header => header.key !== key);
-        this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders});
+        this.props.updateSubscriberModalProps({ ...subscriber, headers: updatedHeaders });
     }
 
     renderHeaderListItem(key, value) {
@@ -99,11 +101,11 @@ class Subscriber extends Component {
                 <form ref={form => this.form = form} onSubmit={this.handleSubmit} className="subscriber__controls">
                     <div className="subscriber__controls__control">
                         <label className="subscriber__controls__control__label" htmlFor="name">Name</label>
-                        <input className="subscriber__controls__control__input" disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={name} placeholder="Subscriber name" id="name" name="name" type="text" />
+                        <input className="subscriber__controls__control__input" required disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={name} placeholder="Subscriber name" id="name" name="name" type="text" />
                     </div>
                     <div className="subscriber__controls__control">
                         <label className="subscriber__controls__control__label" htmlFor="url">URL</label>
-                        <input className="subscriber__controls__control__input" disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={url} placeholder="http://example.com" id="url" name="url" type="text" />
+                        <input className="subscriber__controls__control__input" required disabled={modalType === 'UPDATE_SUBSCRIBER'} defaultValue={url} placeholder="http://example.com" id="url" name="url" type="text" />
                     </div>
                     <div className="subscriber__controls__control">
                         <label className="subscriber__controls__control__label">Headers</label>
@@ -116,10 +118,10 @@ class Subscriber extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className="subscriber__controls__control__buttons">
+                        <Button label={type} class="button button--send" />
+                    </div>
                 </form>
-                <div className="subscriber__controls__control__buttons">
-                    <Button onClick={this.handleSubmit} label={type} class="button button--send" />
-                </div>
             </div>
         )
     }
