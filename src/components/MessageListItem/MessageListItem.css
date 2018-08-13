@@ -13,7 +13,16 @@
 }
 
 .message-list-item__status {
-    width: 100px;
+    width: 30px;
+    color: #828792;
+}
+
+.message-list-item__status--reserved::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f023";
+}
+
+.message-list-item__status--unreserved::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f3c1";
 }
 
 .message-list-item__body {
