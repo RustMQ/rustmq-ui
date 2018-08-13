@@ -4,9 +4,9 @@ import { withRouter } from 'react-router-dom';
 import ReactModal from 'react-modal';
 import QueueList from '../components/QueueList/QueueList';
 import Button from '../components/Button/Button';
-import { loadQueues, showNewQueueModal } from '../actions';
-import NewMessageForm from '../components/NewMessageForm/NewMessageForm'
-import NewQueueForm from '../components/NewQueueForm/NewQueueForm'
+import { loadQueues, showNewQueueModal, newQueueConfig } from '../actions';
+import NewMessageForm from '../components/NewMessageForm/NewMessageForm';
+import QueueCreator from '../components/QueueCreator/QueueCreator';
 import './App.css';
 
 const loadData = ({ loadQueues }) => {
@@ -24,6 +24,7 @@ class App extends Component {
     }
 
     handleNewQueueCall() {
+        this.props.newQueueConfig();
         this.props.showNewQueueModal();
     }
 
@@ -48,7 +49,7 @@ class App extends Component {
                     overlayClassName="modal-overlay"
                 >
                     {(modalType === "POST_MESSAGE") && <NewMessageForm />}
-                    {(modalType === "NEW_QUEUE") && <NewQueueForm />}
+                    {(modalType === "NEW_QUEUE") && <QueueCreator />}
                 </ReactModal>
             </div>
         )
@@ -74,6 +75,7 @@ const mapStateToProps = (state, ownProps) => {
 export default withRouter(
     connect(mapStateToProps, {
         loadQueues,
-        showNewQueueModal
+        showNewQueueModal,
+        newQueueConfig
     })(App)
 );

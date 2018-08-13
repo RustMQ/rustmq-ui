@@ -1,0 +1,32 @@
+.queue-creator {
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    color: #828792;
+    margin: 200px auto;
+    max-width: 600px;
+}
+
+.queue-creator__header {
+    font-size: 24px;
+    border-bottom: 1px solid #adbec6;
+}
+
+.queue-creator__header {
+    padding: 24px 0;
+    text-align: center;
+    color: #171727;
+}
+
+.queue-creator__close-button {
+    position: absolute;
+    right: -36px;
+    top: -36px;
+}
+
+.queue-creator__controls__type-selector {
+    margin: 40px;
+}

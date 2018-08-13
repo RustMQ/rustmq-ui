@@ -18,7 +18,9 @@ import {
     FETCH_MESSAGES_REQUEST,
     FETCH_MESSAGES_FAILURE,
     DELETE_MESSAGE_SUCCESS,
-    UPDATE_SUBSCRIBER_MODAL_PROPS
+    UPDATE_SUBSCRIBER_MODAL_PROPS,
+    CREATE_QUEUE_CONFIG,
+    UPDATE_QUEUE_CONFIG
 
 } from "../actions";
 
@@ -103,7 +105,11 @@ const appStore = (state = initialState, action) => {
             return Object.assign({}, state, { modalIsOpen: false, modalType: null, modalProps: {} });
         }
         case UPDATE_SUBSCRIBER_MODAL_PROPS:
-            return Object.assign({}, state, { modalProps: { ...state.modalProps, subscriber: action.subscriber}});
+            return Object.assign({}, state, { modalProps: { ...state.modalProps, subscriber: action.subscriber } });
+        case CREATE_QUEUE_CONFIG:
+            return Object.assign({}, state, { queueCreationProps: action.queueCreationProps });
+        case UPDATE_QUEUE_CONFIG:
+            return Object.assign({}, state, { queueCreationProps: { ...action.queueCreationProps } });
         default:
             return state;
     }

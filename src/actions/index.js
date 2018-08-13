@@ -31,7 +31,10 @@ export const REMOVE_SUBSCRIBERS_FAILURE = 'REMOVE_SUBSCRIBERS_FAILURE';
 
 export const SHOW_MODAL = 'SHOW_MODAL';
 export const HIDE_MODAL = 'HIDE_MODAL';
-export const UPDATE_SUBSCRIBER_MODAL_PROPS = 'UPDATE_MODAL_PROPS'; 
+export const UPDATE_SUBSCRIBER_MODAL_PROPS = 'UPDATE_MODAL_PROPS';
+
+export const CREATE_QUEUE_CONFIG = 'CREATE_QUEUE_CONFIG';
+export const UPDATE_QUEUE_CONFIG = 'UPDATE_QUEUE_CONFIG';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -411,4 +414,31 @@ export const updateSubscribers = (queueName, subscribers) => async (dispatch) =>
         console.log('Error: ', err);
         return dispatch(updateSubscribersFailure(err));
     }
+};
+
+const createQueueConfig = () => ({
+    type: CREATE_QUEUE_CONFIG,
+    queueCreationProps: {
+        step: 'SELECT_TYPE',
+        queue: {
+            name: '',
+            type: 'pull'
+        }
+    }
+});
+
+const updateQueueConfig = (step, queue) => ({
+    type: UPDATE_QUEUE_CONFIG,
+    queueCreationProps: {
+        step,
+        queue
+    }
+});
+
+export const newQueueConfig = () => (dispatch) => {
+    dispatch(createQueueConfig());
+};
+
+export const setQueueConfig = (step, queue) => (dispatch) => {
+    dispatch(updateQueueConfig(step,queue));
 };
