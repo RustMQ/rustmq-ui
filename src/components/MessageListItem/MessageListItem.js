@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteMessage, loadQueue } from '../../actions';
+import { showDeleteMessageDialog } from '../../actions';
 import Button from '../Button/Button';
 import './MessageListItem.css';
 
@@ -12,10 +12,8 @@ class MessageListItem extends Component {
     }
 
     handleDelete() {
-        const { message, deleteMessage, loadQueue } = this.props;
-        deleteMessage(message.queueName, message.id).then(() => {
-            loadQueue(message.queueName);
-        })
+        const { message } = this.props;
+        this.props.showDeleteMessageDialog(message);
     }
 
     render() {
@@ -39,4 +37,4 @@ const mapStateToProps = (state, ownProps) => {
     return {};
 };
 
-export default connect(mapStateToProps, {deleteMessage, loadQueue})(MessageListItem);
+export default connect(mapStateToProps, { showDeleteMessageDialog })(MessageListItem);
