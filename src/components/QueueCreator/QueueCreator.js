@@ -22,7 +22,6 @@ class QueueCreator extends Component {
         return (
             <div className="queue-creator">
                 <Button onClick={this.handleClose} class="button button--close queue-creator__close-button" />
-                {step !== 'SUCCESS_CREATE' && (<div className="queue-creator__header">Create New Queue</div>)}
                 {step === 'SELECT_TYPE' && (<QueueTypeSelector name="queueType" className="queue-creator__controls__type-selector" />)}
                 {step === 'SET_CONFIG' && (<NewQueueForm />)}
                 {step === 'SUCCESS_CREATE' && (
