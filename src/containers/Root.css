@@ -16,6 +16,16 @@
     outline: none;
 }
 
+@keyframes move {
+    from { margin-top: -50%; }
+    to { margin-top: 0; }
+}
+
+.modal {
+    animation-name: move;
+    animation-duration: .4s;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;

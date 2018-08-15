@@ -13,12 +13,28 @@
 .queue-creator__header {
     font-size: 24px;
     border-bottom: 1px solid #adbec6;
-}
-
-.queue-creator__header {
     padding: 24px 0;
     text-align: center;
     color: #171727;
+}
+
+.queue-creator__success {
+    height: 300px;
+    background-image: url(./success.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 40px 0 100px 0;
+}
+
+.queue-creator__queue-name {
+    text-align: center;
+    font-size: 24px;
+    text-align: center;
+    color: #171727;
+    text-transform: capitalize;
 }
 
 .queue-creator__close-button {

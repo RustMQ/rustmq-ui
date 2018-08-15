@@ -17,14 +17,19 @@ class QueueCreator extends Component {
     }
 
     render() {
-        const { step } = this.props.queueCreationProps;
-        
+        const { step, queue } = this.props.queueCreationProps;
+
         return (
             <div className="queue-creator">
                 <Button onClick={this.handleClose} class="button button--close queue-creator__close-button" />
-                <div className="queue-creator__header">Create New Queue</div>
+                {step !== 'SUCCESS_CREATE' && (<div className="queue-creator__header">Create New Queue</div>)}
                 {step === 'SELECT_TYPE' && (<QueueTypeSelector name="queueType" className="queue-creator__controls__type-selector" />)}
                 {step === 'SET_CONFIG' && (<NewQueueForm />)}
+                {step === 'SUCCESS_CREATE' && (
+                    <div className="queue-creator__success">
+                        <div className="queue-creator__queue-name">{queue.type} Queue Created</div>
+                    </div>
+                )}
             </div>
         )
     }
@@ -32,7 +37,7 @@ class QueueCreator extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const { queueCreationProps } = state.appStore;
-    
+
     return {
         queueCreationProps
     }

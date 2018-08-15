@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addNewQueue, hideModal, loadQueues } from '../../actions';
+import { addNewQueue, hideModal, loadQueues, setQueueConfig } from '../../actions';
 import Button from '../Button/Button';
 import './NewQueueForm.css';
 
@@ -12,7 +12,7 @@ class NewQueueForm extends Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
         const { 
             timeout,
@@ -41,9 +41,9 @@ class NewQueueForm extends Component {
             queue['push'] = push;
         }
 
-        this.props.addNewQueue(queue).then(() => {
-            this.props.loadQueues().then(() => this.props.hideModal());
-        });
+        await this.props.addNewQueue(queue);
+        await this.props.loadQueues();
+        this.props.setQueueConfig('SUCCESS_CREATE', queue);
     }
 
     handleClose() {
@@ -117,4 +117,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-export default connect(mapStateToProps, { addNewQueue, hideModal, loadQueues })(NewQueueForm);
+export default connect(mapStateToProps, { addNewQueue, hideModal, loadQueues, setQueueConfig })(NewQueueForm);
