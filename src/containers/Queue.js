@@ -8,9 +8,11 @@ import {
     loadMessages,
     deleteMessage,
     removeSubscribers,
+    clearQueue,
     showNewSubscriberModal,
     showUpdateSubscriberModal,
     showDeleteQueueDialog,
+    showClearQueueDialog,
     hideModal
 } from '../actions'
 import MessageList from '../components/MessageList/MessageList';
@@ -34,10 +36,12 @@ class Queue extends Component {
         super(props);
 
         this.showDeleteDialog = this.showDeleteDialog.bind(this);
+        this.showClearDialog = this.showClearDialog.bind(this);
         this.handleDeleteQueue = this.handleDeleteQueue.bind(this);
         this.handleDeleteMessage = this.handleDeleteMessage.bind(this);
         this.handleDeleteSubscriber = this.handleDeleteSubscriber.bind(this);
         this.handleAddSubscriber = this.handleAddSubscriber.bind(this);
+        this.handleClearMessages = this.handleClearMessages.bind(this);
     }
 
     componentDidMount() {
@@ -53,6 +57,10 @@ class Queue extends Component {
 
     showDeleteDialog() {
         this.props.showDeleteQueueDialog();
+    }
+
+    showClearDialog() {
+        this.props.showClearQueueDialog();
     }
 
     handleAddSubscriber() {
@@ -76,6 +84,14 @@ class Queue extends Component {
         hideModal();
     }
 
+    async handleClearMessages() {
+        const { queue, clearQueue, loadQueue, loadMessages, hideModal } = this.props;
+        await clearQueue(queue.name);
+        await loadQueue(queue.name);
+        await loadMessages(queue.name);
+        hideModal();
+    }
+
     renderModalContent(modalType) {
         switch (modalType) {
             case 'UPDATE_SUBSCRIBER' || 'NEW_SUBSCRIBER':
@@ -95,6 +111,14 @@ class Queue extends Component {
                         title="Are you sure?"
                         message={`Message will be deleted`}
                         handleConfirm={this.handleDeleteMessage}
+                    />
+                )
+            case 'CLEAR_QUEUE':
+                return (
+                    <ConfirmationDialog
+                        title="Are you sure?"
+                        message={`All messages will be deleted`}
+                        handleConfirm={this.handleClearMessages}
                     />
                 )
             case 'DELETE_SUBSCRIBER':
@@ -149,6 +173,7 @@ class Queue extends Component {
                             Total messages: {queue.total_messages}
                         </div>
                         <div className="queue-page__container__queue__controls">
+                            <Button label="Clear a Queue" onClick={this.showClearDialog} class="button button--send"></Button>
                             <Button label="Delete a Queue" onClick={this.showDeleteDialog} class="button button--send"></Button>
                         </div>
                     </div>
@@ -220,10 +245,12 @@ export default withRouter(
         removeQueue,
         loadMessages,
         deleteMessage,
+        clearQueue,
         removeSubscribers,
         showNewSubscriberModal,
         showUpdateSubscriberModal,
         showDeleteQueueDialog,
+        showClearQueueDialog,
         hideModal
     })(Queue)
 );
