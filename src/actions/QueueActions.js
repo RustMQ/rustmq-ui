@@ -14,6 +14,9 @@ export const ADD_QUEUE_FAILURE = 'ADD_QUEUE_FAILURE';
 export const DELETE_QUEUE_REQUEST = 'DELETE_QUEUE_REQUEST';
 export const DELETE_QUEUE_SUCCESS = 'DELETE_QUEUE_SUCCESS';
 export const DELETE_QUEUE_FAILURE = 'DELETE_QUEUE_FAILURE';
+export const CLEAR_QUEUE_REQUEST = 'CLEAR_QUEUE_REQUEST';
+export const CLEAR_QUEUE_SUCCESS = 'CLEAR_QUEUE_SUCCESS';
+export const CLEAR_QUEUE_FAILURE = 'CLEAR_QUEUE_FAILURE';
 
 const fetchQueuesRequest = () => ({
     type: FETCH_QUEUES_REQUEST,
@@ -166,5 +169,39 @@ export const removeQueue = (queueName) => async (dispatch) => {
     } catch (err) {
         console.log('Error: ', err);
         return dispatch(deleteQueueFailure(err));
+    }
+}
+
+export const clearQueueRequest = (queueName) => ({
+    type: CLEAR_QUEUE_REQUEST,
+    queueName,
+    deleted: false
+});
+
+export const clearQueueSuccess = (queueName) => ({
+    type: CLEAR_QUEUE_SUCCESS,
+    queueName,
+    deleted: true
+});
+
+export const clearQueueFailure = (error) => ({
+    type: CLEAR_QUEUE_FAILURE,
+    error: error,
+    deleted: false
+});
+
+export const clearQueue = (queueName) => async (dispatch) => {
+    const fullUrl = API_ROOT + `queues/${queueName}/messages`;
+    dispatch(clearQueueRequest(queueName));
+    try {
+        await fetch(fullUrl, {
+            method: "DELETE",
+            body: JSON.stringify({})
+        });
+        dispatch(showNotification('success', 'Queue was successfully cleared'));
+        return dispatch(clearQueueSuccess(queueName));
+    } catch (err) {
+        console.log('Error: ', err);
+        return dispatch(clearQueueFailure(err));
     }
 }
