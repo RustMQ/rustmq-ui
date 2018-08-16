@@ -22,7 +22,7 @@ class QueueTypeSelector extends Component {
     componentDidMount() {
         const { type, name } = this.props.queueCreationProps.queue;
         this.form.queueType.value = QUEUE_TYPE[type];
-        this.form.queueName = name;
+        this.form.queueName.value = name;
     }
 
     handleNext(event) {
