@@ -24,9 +24,6 @@ import './Queue.css';
 
 
 const loadData = async ({ loadQueue, loadMessages, match, deleted }) => {
-    if (deleted === true) {
-        return;
-    }
 
     await loadQueue(match.params.queueName);
     await loadMessages(match.params.queueName);
