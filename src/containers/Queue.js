@@ -22,7 +22,6 @@ import ConfirmationDialog from '../components/ConfirmationDialog/ConfirmationDia
 import Button from '../components/Button/Button'
 import './Queue.css';
 
-
 const loadData = async ({ loadQueue, loadMessages, match, deleted }) => {
 
     await loadQueue(match.params.queueName);

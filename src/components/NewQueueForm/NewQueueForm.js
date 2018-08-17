@@ -89,7 +89,7 @@ class NewQueueForm extends Component {
                 </div>
                 <div className="new-queue-form__control">
                     <label className="new-queue-form__control__label" htmlFor="error_queue">Error Queue:</label>
-                    <input className="new-queue-form__control__input" min="0" placeholder="Enter error queue name" id="error_queue" name="error_queue" type="number" />
+                    <input className="new-queue-form__control__input" min="0" placeholder="Enter error queue name" id="error_queue" name="error_queue" type="text" />
                 </div>
                 <div className="new-queue-form__control">
                     <label className="new-queue-form__control__label" htmlFor="subscriber">Subscriber:</label>
