@@ -3,11 +3,20 @@ export const HIDE_MODAL = 'HIDE_MODAL';
 export const UPDATE_SUBSCRIBER_MODAL_PROPS = 'UPDATE_MODAL_PROPS';
 export const CREATE_QUEUE_CONFIG = 'CREATE_QUEUE_CONFIG';
 export const UPDATE_QUEUE_CONFIG = 'UPDATE_QUEUE_CONFIG';
+export const MODAL_TYPES = {
+    POST_MESSAGE: 'POST_MESSAGE',
+    NEW_QUEUE: 'NEW_QUEUE',
+    NEW_SUBSCRIBER: 'NEW_SUBSCRIBER',
+    DELETE_QUEUE: 'DELETE_QUEUE',
+    DELETE_MESSAGE: 'DELETE_MESSAGE',
+    DELETE_SUBSCRIBER: 'DELETE_SUBSCRIBER',
+    CLEAR_QUEUE: 'CLEAR_QUEUE'
+}
 
 export const showPostMessageModal = (queueName) => (dispatch) => {
     return dispatch({
         type: SHOW_MODAL,
-        modalType: 'POST_MESSAGE',
+        modalType: MODAL_TYPES.POST_MESSAGE,
         modalProps: {
             queueName
         }
@@ -17,7 +26,7 @@ export const showPostMessageModal = (queueName) => (dispatch) => {
 export const showNewQueueModal = () => (dispatch) => {
     return dispatch({
         type: SHOW_MODAL,
-        modalType: 'NEW_QUEUE',
+        modalType: MODAL_TYPES.NEW_QUEUE,
         modalProps: {}
     });
 }
@@ -25,7 +34,7 @@ export const showNewQueueModal = () => (dispatch) => {
 export const showNewSubscriberModal = (queueName) => (dispatch) => {
     return dispatch({
         type: SHOW_MODAL,
-        modalType: 'NEW_SUBSCRIBER',
+        modalType: MODAL_TYPES.NEW_SUBSCRIBER,
         modalProps: {
             queueName,
             subscriber: {
@@ -40,7 +49,7 @@ export const showNewSubscriberModal = (queueName) => (dispatch) => {
 export const showUpdateSubscriberModal = (queueName, subscriber) => (dispatch) => {
     return dispatch({
         type: SHOW_MODAL,
-        modalType: 'UPDATE_SUBSCRIBER',
+        modalType: MODAL_TYPES.UPDATE_SUBSCRIBER,
         modalProps: {
             queueName,
             subscriber
@@ -51,7 +60,7 @@ export const showUpdateSubscriberModal = (queueName, subscriber) => (dispatch) =
 export const showDeleteQueueDialog = (queueName) => (dispatch) => {
     return dispatch({
         type: SHOW_MODAL,
-        modalType: 'DELETE_QUEUE',
+        modalType: MODAL_TYPES.DELETE_QUEUE,
         modalProps: {
             queueName
         }
@@ -61,7 +70,7 @@ export const showDeleteQueueDialog = (queueName) => (dispatch) => {
 export const showDeleteMessageDialog = (message) => (dispatch) => {
     return dispatch({
         type: SHOW_MODAL,
-        modalType: 'DELETE_MESSAGE',
+        modalType: MODAL_TYPES.DELETE_MESSAGE,
         modalProps: {
             message
         }
@@ -71,9 +80,19 @@ export const showDeleteMessageDialog = (message) => (dispatch) => {
 export const showDeleteSubscriberDialog = (subscriber) => (dispatch) => {
     return dispatch({
         type: SHOW_MODAL,
-        modalType: 'DELETE_SUBSCRIBER',
+        modalType: MODAL_TYPES.DELETE_SUBSCRIBER,
         modalProps: {
             subscriber
+        }
+    })
+}
+
+export const showClearQueueDialog = (queueName) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: MODAL_TYPES.CLEAR_QUEUE,
+        modalProps: {
+            queueName
         }
     })
 }
