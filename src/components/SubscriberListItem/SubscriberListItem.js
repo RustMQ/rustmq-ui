@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '../Button/Button';
-import { showUpdateSubscriberModal, removeSubscribers, loadQueue } from '../../actions';
+import { showUpdateSubscriberModal, showDeleteSubscriberDialog, loadQueue } from '../../actions';
 import './SubscriberListItem.css';
 
 class SubscriberListItem extends Component {
@@ -18,9 +18,8 @@ class SubscriberListItem extends Component {
     }
 
     async handleDeleteSubscriber() {
-        const { queueName, subscriber } = this.props;
-        await this.props.removeSubscribers(queueName, [subscriber]);
-        await this.props.loadQueue(queueName);
+        const { subscriber } = this.props;
+        this.props.showDeleteSubscriberDialog(subscriber)
     }
 
     render() {
@@ -39,4 +38,4 @@ const mapStateToProps = (state, ownProps) => {
     return {}
 };
 
-export default connect(mapStateToProps, { showUpdateSubscriberModal, removeSubscribers, loadQueue })(SubscriberListItem);
+export default connect(mapStateToProps, { showUpdateSubscriberModal, showDeleteSubscriberDialog, loadQueue })(SubscriberListItem);

@@ -308,6 +308,36 @@ export const showUpdateSubscriberModal = (queueName, subscriber) => (dispatch) =
     })
 }
 
+export const showDeleteQueueDialog = (queueName) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'DELETE_QUEUE',
+        modalProps: {
+            queueName
+        }
+    })
+}
+
+export const showDeleteMessageDialog = (message) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'DELETE_MESSAGE',
+        modalProps: {
+            message
+        }
+    })
+}
+
+export const showDeleteSubscriberDialog = (subscriber) => (dispatch) => {
+    return dispatch({
+        type: SHOW_MODAL,
+        modalType: 'DELETE_SUBSCRIBER',
+        modalProps: {
+            subscriber
+        }
+    })
+}
+
 export const updateSubscriberModalProps = (subscriber) => (dispatch) => {
     return dispatch({
         type: UPDATE_SUBSCRIBER_MODAL_PROPS,

@@ -1,0 +1,30 @@
+.confirmation-dialog {
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    color: #828792;
+    padding: 0 20px;
+    margin: 200px auto;
+    max-width: 300px;
+}
+
+.confirmation-dialog__title {
+    margin: 24px 0;
+    font-size: 24px;
+    color: #171727;
+}
+
+.confirmation-dialog__controls {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+}
+
+.confirmation-dialog__controls__button {
+    width: 100px;
+    text-align: center;
+    margin-left: 10px;
+}

@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import ReactModal from 'react-modal';
-import { 
+import {
     loadQueue,
     removeQueue,
     loadMessages,
+    deleteMessage,
+    removeSubscribers,
     showNewSubscriberModal,
-    showUpdateSubscriberModal
+    showUpdateSubscriberModal,
+    showDeleteQueueDialog,
+    hideModal
 } from '../actions'
 import MessageList from '../components/MessageList/MessageList';
 import SubscriberList from '../components/SubscriberList/SubscriberList'
 import Subscriber from '../components/Subscriber/Subscriber';
+import ConfirmationDialog from '../components/ConfirmationDialog/ConfirmationDialog'
 import Button from '../components/Button/Button'
 import './Queue.css';
 
@@ -28,7 +33,10 @@ class Queue extends Component {
     constructor(props) {
         super(props);
 
+        this.showDeleteDialog = this.showDeleteDialog.bind(this);
         this.handleDeleteQueue = this.handleDeleteQueue.bind(this);
+        this.handleDeleteMessage = this.handleDeleteMessage.bind(this);
+        this.handleDeleteSubscriber = this.handleDeleteSubscriber.bind(this);
         this.handleAddSubscriber = this.handleAddSubscriber.bind(this);
     }
 
@@ -36,10 +44,15 @@ class Queue extends Component {
         loadData(this.props);
     }
 
-    handleDeleteQueue() {
+    async handleDeleteQueue() {
         const { queue } = this.props;
 
-        this.props.removeQueue(queue.name);
+        await this.props.removeQueue(queue.name);
+        this.props.hideModal();
+    }
+
+    showDeleteDialog() {
+        this.props.showDeleteQueueDialog();
     }
 
     handleAddSubscriber() {
@@ -47,8 +60,66 @@ class Queue extends Component {
         this.props.showNewSubscriberModal(queue.name);
     }
 
+    async handleDeleteSubscriber() {
+        const { queue, hideModal } = this.props;
+        const { subscriber } = this.props.modalProps;
+        await this.props.removeSubscribers(queue.name, [subscriber]);
+        await this.props.loadQueue(queue.name);
+        hideModal();
+    }
+
+    async handleDeleteMessage() {
+        const { deleteMessage, loadQueue, hideModal } = this.props;
+        const { message } = this.props.modalProps;
+        await deleteMessage(message.queueName, message.id);
+        await loadQueue(message.queueName);
+        hideModal();
+    }
+
+    renderModalContent(modalType) {
+        switch (modalType) {
+            case 'UPDATE_SUBSCRIBER' || 'NEW_SUBSCRIBER':
+                return (<Subscriber />);
+            case 'DELETE_QUEUE':
+                const { queue } = this.props;
+                return (
+                    <ConfirmationDialog
+                        title="Are you sure?"
+                        message={`"${queue.name}" will be deleted`}
+                        handleConfirm={this.handleDeleteQueue}
+                    />
+                )
+            case 'DELETE_MESSAGE':
+                return (
+                    <ConfirmationDialog
+                        title="Are you sure?"
+                        message={`Message will be deleted`}
+                        handleConfirm={this.handleDeleteMessage}
+                    />
+                )
+            case 'DELETE_SUBSCRIBER':
+                const { subscriber } = this.props.modalProps;
+                return (
+                    <ConfirmationDialog
+                        title="Are you sure?"
+                        message={`"${subscriber.url}" will be deleted`}
+                        handleConfirm={this.handleDeleteSubscriber}
+                    />
+                )
+            default:
+                return null;
+        }
+    }
+
     render() {
-        const { queue, messages, isFetching, toHome, modalIsOpen } = this.props;
+        const {
+            queue,
+            messages,
+            isFetching,
+            toHome,
+            modalIsOpen,
+            modalType
+        } = this.props;
 
         if (toHome === true) {
             return <Redirect to='/' />
@@ -78,7 +149,7 @@ class Queue extends Component {
                             Total messages: {queue.total_messages}
                         </div>
                         <div className="queue-page__container__queue__controls">
-                            <Button label="Delete a Queue" onClick={this.handleDeleteQueue} class="button button--send"></Button>
+                            <Button label="Delete a Queue" onClick={this.showDeleteDialog} class="button button--send"></Button>
                         </div>
                     </div>
                     {queue.type !== 'pull' && <div className="queue-page__container__queue__container">
@@ -108,7 +179,7 @@ class Queue extends Component {
                     className="modal"
                     overlayClassName="modal-overlay"
                 >
-                    {modalIsOpen && <Subscriber />}
+                    {this.renderModalContent(modalType)}
                 </ReactModal>
             </div>
         )
@@ -122,7 +193,10 @@ const mapStateToProps = (state, ownProps) => {
         isFetching,
         deleted,
         toHome,
-        modalIsOpen
+        modalIsOpen,
+        modalType,
+        modalProps,
+        hideModal
     } = state.appStore;
 
     const queue = queues.get(ownProps.match.params.queueName);
@@ -133,7 +207,10 @@ const mapStateToProps = (state, ownProps) => {
         isFetching,
         deleted,
         toHome,
-        modalIsOpen
+        modalIsOpen,
+        modalType,
+        modalProps,
+        hideModal
     }
 };
 
@@ -142,7 +219,11 @@ export default withRouter(
         loadQueue,
         removeQueue,
         loadMessages,
+        deleteMessage,
+        removeSubscribers,
         showNewSubscriberModal,
-        showUpdateSubscriberModal
+        showUpdateSubscriberModal,
+        showDeleteQueueDialog,
+        hideModal
     })(Queue)
 );
