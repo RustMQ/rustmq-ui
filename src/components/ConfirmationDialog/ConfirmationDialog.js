@@ -11,8 +11,8 @@ class ConfirmationDialog extends Component {
                 <div className="confirmation-dialog__title">{this.props.title}</div>
                 <div>{this.props.message}</div>
                 <div className="confirmation-dialog__controls">
-                    <Button onClick={this.props.handleConfirm} class="button button--send confirmation-dialog__controls__button"  label="Ok" />
-                    <Button onClick={() => this.props.hideModal()} class="button button--send confirmation-dialog__controls__button" label="Cancel" />
+                    <Button id="confirm" onClick={this.props.handleConfirm} class="button button--send confirmation-dialog__controls__button"  label="Ok" />
+                    <Button id="cancel" onClick={() => this.props.hideModal()} class="button button--send confirmation-dialog__controls__button" label="Cancel" />
                 </div>
             </div>
         )

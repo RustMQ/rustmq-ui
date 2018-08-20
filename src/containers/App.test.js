@@ -19,11 +19,13 @@ const generateQueue = (type) => ({
 beforeAll(async () => {
     browser = await puppeteer.launch({
         headless: false,
-        slowMo: 100
+        slowMo: 50
     });
 
     page = await browser.newPage();
+})
 
+beforeEach(async () => {
     page.emulate({
         viewport: {
             width: 1920,
@@ -33,7 +35,7 @@ beforeAll(async () => {
     });
 
     await page.goto('http://localhost:3000/');
-})
+});
 
 describe('App', () => {
 
@@ -52,6 +54,13 @@ describe('App', () => {
         await page.click('button[class="button button--send new-queue-form__buttons__button--next"]');
         await page.waitForSelector('.queue-creator__success');
         await page.click('button[class="button button--close queue-creator__close-button"]')
+        await page.waitForSelector(`a[href="/queue/${pullQueue.name}"]`);
+        await page.click(`a[href="/queue/${pullQueue.name}"]`);
+        await page.waitForSelector('button[id="deleteQueue"]');
+        await page.click('button[id="deleteQueue"]');
+        await page.waitForSelector('button[id="confirm"]');
+        await page.click('button[id="confirm"]');
+
 
     }, 60000);
 
@@ -76,6 +85,10 @@ describe('App', () => {
         await page.waitForSelector('.queue-creator__success');
         await page.click('button[class="button button--close queue-creator__close-button"]');
         await page.waitForSelector(`a[href="/queue/${unicastQueue.name}"]`);
+        await page.waitForSelector('button[id="deleteQueue"]');
+        await page.click('button[id="deleteQueue"]');
+        await page.waitForSelector('button[id="confirm"]');
+        await page.click('button[id="confirm"]');
 
     }, 60000);
 
@@ -100,6 +113,10 @@ describe('App', () => {
         await page.waitForSelector('.queue-creator__success');
         await page.click('button[class="button button--close queue-creator__close-button"]');
         await page.waitForSelector(`a[href="/queue/${multicastQueue.name}"]`);
+        await page.waitForSelector('button[id="deleteQueue"]');
+        await page.click('button[id="deleteQueue"]');
+        await page.waitForSelector('button[id="confirm"]');
+        await page.click('button[id="confirm"]');
 
     }, 900000);
 
