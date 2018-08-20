@@ -153,7 +153,3 @@ export const showQueueConfigModal = (queue) => (dispatch) => {
 export const showSuccessCreateModal = (queue) => (dispatch) => {
     dispatch(updateQueueConfig(QUEUE_CREATION_STEPS.SUCCESS_CREATE, queue));
 };
-
-
-
-
