@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addNewQueue, hideModal, loadQueues } from '../../actions';
+import { addNewQueue, hideModal, loadQueues, showSelectTypeModal, showSuccessCreateModal } from '../../actions';
 import Button from '../Button/Button';
 import './NewQueueForm.css';
 
@@ -10,18 +10,19 @@ class NewQueueForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleBack = this.handleBack.bind(this);
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
-        const { 
+        const {
             timeout,
             expiration,
             retries,
             retries_delay,
             subscriber
         } = this.form;
-        
+
         const { name, type } = this.props.queueCreationProps.queue;
 
         const queue = {
@@ -41,9 +42,14 @@ class NewQueueForm extends Component {
             queue['push'] = push;
         }
 
-        this.props.addNewQueue(queue).then(() => {
-            this.props.loadQueues().then(() => this.props.hideModal());
-        });
+        await this.props.addNewQueue(queue);
+        await this.props.loadQueues();
+        this.props.showSuccessCreateModal(queue);
+    }
+
+    handleBack() {
+        const { queue } = this.props.queueCreationProps;
+        this.props.showSelectTypeModal(queue);
     }
 
     handleClose() {
@@ -97,15 +103,21 @@ class NewQueueForm extends Component {
         const { queue } = this.props.queueCreationProps;
 
         return (
-            <form ref={form => this.form = form} onSubmit={this.handleSubmit}>
-                <div className="new-queue-form__controls">
-                    {this.renderPullConfig()}
-                    {queue.type !== 'pull' && this.renderPushConfig()}
-                    <div className="new-message-form__modal__buttons new-queue-form__buttons--centered">
-                        <Button label="Create" class="button button--send new-queue-form__buttons__button--next" />
-                    </div>
+            <div>
+                <div className="new-queue-form__header">
+                    <Button onClick={this.handleBack} class="button button--back new-queue-form__buttons__button--back"/>
+                    Create New Queue
                 </div>
-            </form>
+                <form ref={form => this.form = form} onSubmit={this.handleSubmit}>
+                    <div className="new-queue-form__controls">
+                        {this.renderPullConfig()}
+                        {queue.type !== 'pull' && this.renderPushConfig()}
+                        <div className="new-message-form__modal__buttons new-queue-form__buttons--centered">
+                            <Button label="Create" class="button button--send new-queue-form__buttons__button--next" />
+                        </div>
+                    </div>
+                </form>
+            </div>
         )
     }
 }
@@ -117,4 +129,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-export default connect(mapStateToProps, { addNewQueue, hideModal, loadQueues })(NewQueueForm);
+export default connect(mapStateToProps, { addNewQueue, hideModal, loadQueues, showSelectTypeModal, showSuccessCreateModal })(NewQueueForm);

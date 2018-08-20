@@ -128,7 +128,6 @@ export const addNewQueue = (newQueue) => async (dispatch) => {
 
         const json = await response.json();
         const queue = json.queue;
-        dispatch(showNotification('success', 'Queue was successfully created'));
         return dispatch(addQueueSuccess(queue));
     } catch (err) {
         console.log('Error: ', err);

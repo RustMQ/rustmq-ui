@@ -11,6 +11,11 @@ export const MODAL_TYPES = {
     DELETE_MESSAGE: 'DELETE_MESSAGE',
     DELETE_SUBSCRIBER: 'DELETE_SUBSCRIBER',
     CLEAR_QUEUE: 'CLEAR_QUEUE'
+};
+export const QUEUE_CREATION_STEPS = {
+    SELECT_TYPE: 'SELECT_TYPE',
+    SET_CONFIG: 'SET_CONFIG',
+    SUCCESS_CREATE: 'SUCCESS_CREATE'
 }
 
 export const showPostMessageModal = (queueName) => (dispatch) => {
@@ -135,4 +140,16 @@ export const newQueueConfig = () => (dispatch) => {
 
 export const setQueueConfig = (step, queue) => (dispatch) => {
     dispatch(updateQueueConfig(step, queue));
+};
+
+export const showSelectTypeModal = (queue) => (dispatch) => {
+    dispatch(updateQueueConfig(QUEUE_CREATION_STEPS.SELECT_TYPE, queue));
+};
+
+export const showQueueConfigModal = (queue) => (dispatch) => {
+    dispatch(updateQueueConfig(QUEUE_CREATION_STEPS.SET_CONFIG, queue));
+};
+
+export const showSuccessCreateModal = (queue) => (dispatch) => {
+    dispatch(updateQueueConfig(QUEUE_CREATION_STEPS.SUCCESS_CREATE, queue));
 };

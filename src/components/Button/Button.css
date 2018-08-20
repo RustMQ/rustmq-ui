@@ -67,8 +67,16 @@
     content: "\2795";
 }
 
+.button--back > .button__label::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    font-size: 24px;
+    content: "\f060";
+}
+
 .button--delete,
-.button--add {
+.button--add,
+.button--back {
     background: none;
     color: #828792;
 }

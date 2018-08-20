@@ -13,6 +13,7 @@
 .new-queue-form__header {
     font-size: 24px;
     border-bottom: 1px solid #adbec6;
+    position: relative;
 }
 
 .new-queue-form__queue-name {
@@ -91,4 +92,9 @@
 
 .new-queue-form__buttons__button--next {
     padding: 10px 50px;
+}
+
+.new-queue-form__buttons__button--back {
+    position: absolute;
+    left: 20px;
 }
