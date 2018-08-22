@@ -1,7 +1,10 @@
 import { removeFromArray } from "../utils/removeFromArray";
 import { combineReducers } from "redux";
-import queuesReducer from './queueReducer';
+import queueReducer from './queueReducer';
 import {reducer as notificationsReducer} from 'reapop';
+import messageReducer from "./messageReducer";
+import isFetchingReducer from "./isFetchingReducer";
+
 import {
     SHOW_MODAL,
     HIDE_MODAL,
@@ -25,7 +28,6 @@ import {
     UPDATE_QUEUE_CONFIG
 
 } from "../actions";
-import messageReducer from "./messageReducer";
 
 const initialState = {
     queues: new Map(),
@@ -123,8 +125,9 @@ const appStore = (state = initialState, action) => {
 const rootReducer = combineReducers({
     appStore,
     newStore: combineReducers({
-        queues: queuesReducer,
-        messages: messageReducer
+        queues: queueReducer,
+        messages: messageReducer,
+        isFetching: isFetchingReducer
     }),
     notifications: notificationsReducer()
 });
