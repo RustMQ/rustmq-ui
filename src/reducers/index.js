@@ -25,6 +25,7 @@ import {
     UPDATE_QUEUE_CONFIG
 
 } from "../actions";
+import messageReducer from "./messageReducer";
 
 const initialState = {
     queues: new Map(),
@@ -122,7 +123,8 @@ const appStore = (state = initialState, action) => {
 const rootReducer = combineReducers({
     appStore,
     newStore: combineReducers({
-        queues: queuesReducer
+        queues: queuesReducer,
+        messages: messageReducer
     }),
     notifications: notificationsReducer()
 });
