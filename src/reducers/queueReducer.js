@@ -1,4 +1,9 @@
-import { FETCH_QUEUES_SUCCESS, FETCH_QUEUE_SUCCESS, DELETE_QUEUE_SUCCESS, ADD_QUEUE_SUCCESS } from "../actions";
+import { 
+    FETCH_QUEUES_SUCCESS,
+    FETCH_QUEUE_SUCCESS,
+    DELETE_QUEUE_SUCCESS,
+    ADD_QUEUE_SUCCESS
+} from "../actions";
 
 const initialState = new Map();
 
