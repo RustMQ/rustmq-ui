@@ -90,8 +90,10 @@ class Queue extends Component {
     }
 
     renderModalContent(modalType) {
+        
         switch (modalType) {
-            case 'UPDATE_SUBSCRIBER' || 'NEW_SUBSCRIBER':
+            case 'UPDATE_SUBSCRIBER':
+            case 'NEW_SUBSCRIBER':
                 return (<Subscriber />);
             case 'DELETE_QUEUE':
                 const { queue } = this.props;
