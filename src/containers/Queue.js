@@ -90,8 +90,10 @@ class Queue extends Component {
     }
 
     renderModalContent(modalType) {
+        
         switch (modalType) {
-            case 'UPDATE_SUBSCRIBER' || 'NEW_SUBSCRIBER':
+            case 'UPDATE_SUBSCRIBER':
+            case 'NEW_SUBSCRIBER':
                 return (<Subscriber />);
             case 'DELETE_QUEUE':
                 const { queue } = this.props;
@@ -215,10 +217,7 @@ const mapStateToProps = (state, ownProps) => {
         isFetching,
         deleted,
         toHome,
-        modalIsOpen,
-        modalType,
-        modalProps,
-        hideModal
+        modal
     } = state.appStore;
 
     const queue = queues.get(ownProps.match.params.queueName);
@@ -229,9 +228,9 @@ const mapStateToProps = (state, ownProps) => {
         isFetching,
         deleted,
         toHome,
-        modalIsOpen,
-        modalType,
-        modalProps,
+        modalIsOpen: modal.isOpen,
+        modalType: modal.type,
+        modalProps: modal.props,
         hideModal
     }
 };

@@ -128,14 +128,11 @@ class Subscriber extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {
-        modalType,
-        modalProps
-    } = state.appStore;
+    const { modal } = state.appStore;
 
     return {
-        modalType,
-        modalProps
+        modalType: modal.type,
+        modalProps: modal.props
     }
 };
 
