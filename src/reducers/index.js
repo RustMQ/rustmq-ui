@@ -6,6 +6,7 @@ import messageReducer from "./messageReducer";
 import isFetchingReducer from "./isFetchingReducer";
 import modalReducer from "./modalReducer";
 import queueConfigReducer from "./queueConfigReducer";
+import toHomeReducer from "./toHomeReducer";
 
 import {
     SHOW_MODAL,
@@ -126,12 +127,13 @@ const appStore = (state = initialState, action) => {
 
 const rootReducer = combineReducers({
     appStore,
-    appStore: combineReducers({
+    newStore: combineReducers({
         queues: queueReducer,
         messages: messageReducer,
         isFetching: isFetchingReducer,
         modal: modalReducer,
-        queueCreationProps: queueConfigReducer
+        queueCreationProps: queueConfigReducer,
+        toHome: toHomeReducer
     }),
     notifications: notificationsReducer()
 });
