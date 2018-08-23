@@ -4,6 +4,7 @@ import queueReducer from './queueReducer';
 import {reducer as notificationsReducer} from 'reapop';
 import messageReducer from "./messageReducer";
 import isFetchingReducer from "./isFetchingReducer";
+import modalReducer from "./modalReducer";
 
 import {
     SHOW_MODAL,
@@ -127,7 +128,8 @@ const rootReducer = combineReducers({
     newStore: combineReducers({
         queues: queueReducer,
         messages: messageReducer,
-        isFetching: isFetchingReducer
+        isFetching: isFetchingReducer,
+        modal: modalReducer
     }),
     notifications: notificationsReducer()
 });
