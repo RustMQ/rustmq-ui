@@ -58,15 +58,14 @@ const mapStateToProps = (state, ownProps) => {
     const {
         queues,
         isFetching,
-        modalType,
-        modalIsOpen
+        modal
     } = state.appStore;
 
     return {
         items: Array.from(queues),
         isFetching: isFetching,
-        modalType: modalType,
-        modalIsOpen: modalIsOpen
+        modalType: modal.type,
+        modalIsOpen: modal.isOpen
     }
 };
 

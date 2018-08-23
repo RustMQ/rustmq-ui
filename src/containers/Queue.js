@@ -217,10 +217,7 @@ const mapStateToProps = (state, ownProps) => {
         isFetching,
         deleted,
         toHome,
-        modalIsOpen,
-        modalType,
-        modalProps,
-        hideModal
+        modal
     } = state.appStore;
 
     const queue = queues.get(ownProps.match.params.queueName);
@@ -231,9 +228,9 @@ const mapStateToProps = (state, ownProps) => {
         isFetching,
         deleted,
         toHome,
-        modalIsOpen,
-        modalType,
-        modalProps,
+        modalIsOpen: modal.isOpen,
+        modalType: modal.type,
+        modalProps: modal.props,
         hideModal
     }
 };
