@@ -1,0 +1,7 @@
+.env.local
+.vscode
+coverage
+env*
+docker-compose-development.yml
+build
+node_modules
