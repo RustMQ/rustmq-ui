@@ -1,10 +1,12 @@
 version: '3'
 services:
   cors-anywhere:
+    environment:
+     - PORT=3000
     ports:
-      - "4000:4000"
+      - "4000:3000"
     container_name: cors-anywhere
-    image: cors-anywhere
+    image: rustmq/cors-anywhere
 
   dashboard:
     build:
@@ -13,7 +15,7 @@ services:
     image: rustmq/dashboard
     environment:
      - PORT=3000
-    ports: 
+    ports:
       - '3000:3000'
 
   redis:
@@ -25,6 +27,7 @@ services:
   web:
     env_file:
       - env.web.list
+    container_name: web
     image: rustmq/web
     ports:
       - "8000:8000"
