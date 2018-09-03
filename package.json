@@ -22,10 +22,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
+    "jest": "^23.5.0",
+    "jest-cli": "^23.5.0",
+    "puppeteer": "^1.7.0",
     "react-test-renderer": "^16.4.1",
     "redux-logger": "^3.0.6"
   }

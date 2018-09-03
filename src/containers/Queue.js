@@ -22,7 +22,6 @@ import ConfirmationDialog from '../components/ConfirmationDialog/ConfirmationDia
 import Button from '../components/Button/Button'
 import './Queue.css';
 
-
 const loadData = async ({ loadQueue, loadMessages, match, deleted }) => {
 
     await loadQueue(match.params.queueName);
@@ -173,7 +172,7 @@ class Queue extends Component {
                         </div>
                         <div className="queue-page__container__queue__controls">
                             <Button label="Clear a Queue" onClick={this.showClearDialog} class="button button--send"></Button>
-                            <Button label="Delete a Queue" onClick={this.showDeleteDialog} class="button button--send"></Button>
+                            <Button label="Delete a Queue" onClick={this.showDeleteDialog} id="deleteQueue" class="button button--send"></Button>
                         </div>
                     </div>
                     {queue.type !== 'pull' && <div className="queue-page__container__queue__container">
