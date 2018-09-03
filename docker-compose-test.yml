@@ -1,0 +1,45 @@
+version: '3'
+services:
+  cors-anywhere:
+    environment:
+     - PORT=3000
+    ports:
+      - "4000:3000"
+    container_name: cors-anywhere
+    image: rustmq/cors-anywhere
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rustmq/dashboard:test
+    environment:
+     - PORT=3000
+    ports:
+      - '3000:3000'
+
+  redis:
+    container_name: redis
+    image: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+  web:
+    env_file:
+      - env.web.list
+    container_name: web
+    image: rustmq/web
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - pusher
+
+  pusher:
+    env_file:
+        - env.pusher.list
+    image: rustmq/pusher
+    ports:
+    - "8080:8080"
+    depends_on:
+      - redis
