@@ -26,7 +26,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-    page.emulate({
+    await page.emulate({
         viewport: {
             width: 1920,
             height: 1080
@@ -44,7 +44,7 @@ describe('App', () => {
         await createPullQueue(pullQueue);
         await openQueue(pullQueue.name);
         await deleteQueue();
-    },100000);
+    }, 100000);
 
     test('should create unicast queue', async () => {
         const unicastQueue = generateQueue('unicast');
@@ -72,8 +72,7 @@ const createPullQueue = async (queue) => {
     await page.click('button[class="button button--create"]');
     await page.waitForSelector('.queue-type-selector');
     await page.type("input[name=queueName]", queue.name);
-    await page.waitForSelector('button[class="button button--send queue-type-selector__buttons__button--next"]');
-    await page.click('button[class="button button--send queue-type-selector__buttons__button--next"]');
+    await page.mainFrame().click('button[class="button button--send queue-type-selector__buttons__button--next"]');
     await page.waitForSelector('#timeout');
     await page.type("input[name=timeout]", queue.timeout);
     await page.waitForSelector('#expiration');
